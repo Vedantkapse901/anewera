@@ -1,1237 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Era Developers | Today's Plan - Tomorrow's Success</title>
-    <meta name="description" content="Invest in Dholera SIR with New Era Developers. Projects: Shivneri, Dream City, Ajinkya Tara.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            blue: '#0054a6',    // Logo Blue
-                            green: '#00a651',   // Logo Green
-                            red: '#be1e2d',     // Logo Roof Red
-                            dark: '#1a202c',
-                            light: '#f8fafc',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        html { scroll-behavior: smooth; }
-        
-        /* Page Transition Logic */
-        .page-section {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        .page-section.active {
-            display: block;
-        }
-
-        /* Plot Grid System */
-        .plot-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            padding: 1.5rem;
-            background-color: #fff;
-            border-radius: 1rem;
-            border: 1px solid #e2e8f0;
-            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-            justify-content: center;
-        }
-
-        .plot {
-            width: 80px;
-            height: 80px;
-            border-radius: 0.25rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            font-size: 0.75rem;
-            font-weight: 600;
-            user-select: none;
-        }
-
-        .plot-commercial { width: 100px; height: 60px; }
-        .plot:hover { transform: scale(1.05); z-index: 10; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-
-        /* Status Colors */
-        .plot.available { background: #dcfce7; border: 1px solid #16a34a; color: #166534; }
-        .plot.sold { background: #fee2e2; border: 1px solid #dc2626; color: #991b1b; opacity: 0.8; }
-        .plot.reserved { background: #fef9c3; border: 1px solid #ca8a04; color: #854d0e; }
-        .plot.commercial { background: #e0f2fe; border: 1px solid #0054a6; color: #0054a6; }
-
-        /* Shivneri Specific Layout */
-        .shivneri-layout {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .s-plot-10 { grid-column: 1; grid-row: 1; }
-        .s-plot-9 { grid-column: 2; grid-row: 1; }
-        .s-plot-8 { grid-column: 3; grid-row: 1; }
-        .s-plot-7 { grid-column: 4; grid-row: 1; }
-        .s-plot-6 { grid-column: 5; grid-row: 1; }
-        .s-plot-5 { grid-column: 6; grid-row: 1; }
-        .s-plot-11 { grid-column: 1; grid-row: 2; height: 100px; }
-        .s-park { grid-column: 2 / span 4; grid-row: 2 / span 2; background: #f0fdf4; border: 2px dashed #16a34a; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #166534; font-weight: bold; font-size: 0.8rem; }
-        .s-plot-4 { grid-column: 6; grid-row: 2; height: 100px; }
-        .s-plot-12 { grid-column: 1; grid-row: 3; height: 120px; }
-        .s-plot-3 { grid-column: 6; grid-row: 3; height: 120px; }
-        .s-plot-13 { grid-column: 1; grid-row: 4; }
-        .s-plot-14 { grid-column: 2; grid-row: 4; }
-        .s-entry { grid-column: 3 / span 2; grid-row: 4; display: flex; align-items: flex-end; justify-content: center; font-size: 0.7rem; color: #64748b; font-weight: bold; padding-bottom: 5px; }
-        .s-plot-1 { grid-column: 5; grid-row: 4; }
-        .s-plot-2 { grid-column: 6; grid-row: 4; }
-
-        /* Admin Badge */
-        .admin-badge {
-            position: absolute;
-            top: -6px; right: -6px;
-            background: #0054a6; color: white;
-            border-radius: 50%; width: 18px; height: 18px;
-            font-size: 10px; display: none; align-items: center; justify-content: center; border: 1px solid white;
-        }
-        body.is-admin .admin-badge { display: flex; }
-        .admin-only-section { display: none; }
-        body.is-admin .admin-only-section { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
-        
-        /* Stats Circle */
-        .stat-circle {
-            width: 120px; height: 120px; border-radius: 50%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border: 4px solid #f0fdf4; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-        }
-
-        /* Booking Steps */
-        .booking-step { display: none; }
-        .booking-step.active { display: block; animation: fadeIn 0.4s ease; }
-
-        /* Loader */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #0054a6;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A New Era Developers | Building Tomorrow's Legacy</title>
+  <meta name="description" content="A New Era Developers crafts landmark land and construction opportunities across Dholera SIR and Mira Road.">
+  <link rel="icon" type="image/png" href="public/images/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <link rel="stylesheet" href="public/css/variables.css">
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="public/css/animations.css">
+  <link rel="stylesheet" href="public/css/components.css">
 </head>
-<body class="bg-slate-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+<body>
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-md fixed w-full z-50 h-20 transition-all" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
-                <div class="flex flex-col items-center leading-none">
-                    <div class="relative">
-                        <i class="fas fa-home text-brand-red text-2xl absolute -top-4 left-1/2 transform -translate-x-1/2"></i>
-                        <h1 class="text-3xl font-serif font-bold text-brand-green italic tracking-tight" style="text-shadow: 1px 1px 0px rgba(0,0,0,0.1);">New Era</h1>
-                    </div>
-                    <span class="text-brand-dark tracking-[0.3em] text-xs font-bold mt-1">DEVELOPERS</span>
-                </div>
-            </div>
-
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-4">
-                <button onclick="showPage('home')" class="nav-link text-gray-600 hover:text-brand-blue font-medium transition text-sm">Home</button>
-                <button onclick="showPage('about')" class="nav-link text-gray-600 hover:text-brand-blue font-medium transition text-sm">About Us</button>
-                <button onclick="showPage('dholera')" class="nav-link text-gray-600 hover:text-brand-blue font-medium transition text-sm">Why Dholera?</button>
-                <button onclick="showPage('projects')" class="nav-link text-gray-600 hover:text-brand-blue font-medium transition text-sm">Projects</button>
-                <button onclick="showPage('events')" class="nav-link text-gray-600 hover:text-brand-blue font-medium transition text-sm">Events</button>
-                <button onclick="showPage('gallery')" class="nav-link text-gray-600 hover:text-brand-blue font-medium transition text-sm">Gallery</button>
-                <button onclick="showPage('contact')" class="nav-link text-gray-600 hover:text-brand-blue font-medium transition text-sm">Contact</button>
-                <button onclick="toggleAdminPanel()" id="adminBtn" class="bg-brand-blue text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-blue-800 transition shadow-lg">
-                    Admin
-                </button>
-            </div>
-
-            <!-- Mobile Menu Btn -->
-            <button class="md:hidden text-gray-600 text-2xl focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div class="hidden md:hidden bg-white border-t p-4 space-y-3 shadow-lg absolute top-20 w-full z-40" id="mobile-menu">
-            <button onclick="showPage('home')" class="block w-full text-left text-gray-700 font-medium">Home</button>
-            <button onclick="showPage('about')" class="block w-full text-left text-gray-700 font-medium">About Us</button>
-            <button onclick="showPage('dholera')" class="block w-full text-left text-gray-700 font-medium">Why Dholera?</button>
-            <button onclick="showPage('projects')" class="block w-full text-left text-gray-700 font-medium">Projects</button>
-            <button onclick="showPage('events')" class="block w-full text-left text-gray-700 font-medium">Events</button>
-            <button onclick="showPage('gallery')" class="block w-full text-left text-gray-700 font-medium">Gallery</button>
-            <button onclick="showPage('contact')" class="block w-full text-left text-gray-700 font-medium">Contact</button>
-            <button onclick="toggleAdminPanel()" class="w-full text-left text-brand-blue font-bold">Admin Login</button>
-        </div>
-    </nav>
-
-    <!-- Admin Bar -->
-    <div id="admin-bar" class="hidden fixed top-20 w-full bg-brand-green text-white z-40 py-2 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm">
-            <span class="font-bold"><i class="fas fa-user-shield mr-2"></i> Admin Mode: Editing Enabled</span>
-            <div class="flex gap-4">
-                <button onclick="openAdminSettings()" class="underline hover:text-green-100">Booking Dashboard</button>
-                <button onclick="logoutAdmin()" class="underline hover:text-green-100">Logout</button>
-            </div>
-        </div>
+  <div id="preloader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--ivory)] transition-all duration-500">
+    <div class="absolute top-0 h-1 w-full overflow-hidden"><span class="block h-full w-1/3 bg-[var(--gold-bright)] animate-[shimmer_2s_linear_infinite]"></span></div>
+    <div class="relative">
+      <img src="public/images/logo.png" alt="A New Era Developers logo" class="h-20 w-auto relative z-20">
+      <span class="absolute inset-0 border-2 border-[var(--gold-bright)] rounded-full animate-[preloaderRing_2s_ease-out_infinite]"></span>
+      <span class="absolute inset-0 border border-[var(--gold)] rounded-full animate-[preloaderRing_2s_ease-out_infinite_0.5s]"></span>
     </div>
+    <p class="font-display mt-5 text-xl text-[var(--royal-blue)]" data-site-text="companyName">A New Era Developers</p>
+  </div>
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="flex-grow pt-20">
-
-        <!-- === HOME PAGE === -->
-        <div id="page-home" class="page-section active">
-            <!-- Hero Section -->
-            <section class="relative h-[90vh] flex items-center justify-center overflow-hidden bg-brand-blue">
-                <div class="absolute inset-0 z-0 opacity-20">
-                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                        <defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="white" stroke-width="0.5"/></pattern></defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" />
-                    </svg>
-                </div>
-                <div class="relative z-10 text-center px-4 max-w-5xl mx-auto animate-fade-in text-white">
-                    <div class="inline-block bg-white text-brand-blue px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6 shadow-md">
-                        Like Dubai, Singapore & Shanghai
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-serif font-bold mb-4 leading-tight">
-                        Today's Plan<br/><span class="text-brand-green bg-white px-2 italic">Tomorrow's Success</span>
-                    </h1>
-                    <p class="text-blue-100 text-lg md:text-xl mb-10 max-w-3xl mx-auto font-light leading-relaxed">
-                        Secure your family's future with <strong>New Era Developers</strong>. Premium NA, NOC & Title Cleared plots in Dholera SIR - India's First Greenfield Smart City.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button onclick="showPage('projects')" class="bg-brand-green text-white px-8 py-4 rounded-lg font-bold hover:bg-green-700 transition shadow-lg border-b-4 border-green-800">
-                            Explore Projects
-                        </button>
-                        <button onclick="showPage('sitevisit')" class="bg-white text-brand-blue px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition shadow-lg flex items-center justify-center gap-2">
-                            <i class="fas fa-calendar-check"></i> Schedule Site Visit
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PM Vision Section -->
-            <section class="py-16 bg-white border-b border-gray-100">
-                <div class="max-w-7xl mx-auto px-4 text-center">
-                    <div class="w-16 h-16 bg-brand-green/10 text-brand-green rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-quote-left text-3xl"></i>
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-4">A National Vision</h2>
-                    <p class="text-xl text-gray-600 italic max-w-3xl mx-auto leading-relaxed">
-                        "Dholera SIR is a dream project of our PM Hon. Narendra Modi. It is envisioned to be twice the size of Delhi and six times bigger than Shanghai."
-                    </p>
-                    <div class="mt-6 text-sm font-bold text-brand-blue uppercase tracking-widest">India's First Platinum Rated Greenfield Smart City</div>
-                </div>
-            </section>
-
-            <!-- Industrial Giants Section -->
-            <section class="py-20 bg-brand-light">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="text-center mb-16">
-                        <h2 class="text-3xl font-serif font-bold text-brand-dark">The Industrial Revolution</h2>
-                        <p class="mt-2 text-gray-600">Global giants are already building the future in Dholera.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition group">
-                            <div class="flex items-center justify-between mb-4">
-                                <i class="fas fa-plane text-4xl text-brand-blue group-hover:scale-110 transition"></i>
-                                <span class="bg-blue-100 text-brand-blue text-xs font-bold px-2 py-1 rounded">Aviation</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Tata & Airbus</h3>
-                            <p class="text-gray-600 text-sm">Manufacturing the C-295 Aircraft. A historic defense project marking India's entry into private aircraft manufacturing.</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition group">
-                            <div class="flex items-center justify-between mb-4">
-                                <i class="fas fa-microchip text-4xl text-brand-green group-hover:scale-110 transition"></i>
-                                <span class="bg-green-100 text-brand-green text-xs font-bold px-2 py-1 rounded">Tech</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Vedanta Foxconn</h3>
-                            <p class="text-gray-600 text-sm">Setting up India's first semiconductor manufacturing plant, positioning Dholera as a global electronics hub.</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition group">
-                            <div class="flex items-center justify-between mb-4">
-                                <i class="fas fa-solar-panel text-4xl text-yellow-500 group-hover:scale-110 transition"></i>
-                                <span class="bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-1 rounded">Energy</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">ReNew Power</h3>
-                            <p class="text-gray-600 text-sm">Developing massive solar parks. Dholera is set to become a renewable energy capital with a 5000 MW Solar Park.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Why Us Section -->
-            <section class="py-20 bg-white">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <span class="text-brand-green font-bold uppercase tracking-wider text-sm">Why Choose Us</span>
-                            <h2 class="text-4xl font-serif font-bold text-brand-dark mt-2 mb-6">Trusted by Families for Their Future</h2>
-                            <p class="text-gray-600 text-lg mb-8">We don't just sell plots; we secure legacies. Investing in Dholera with New Era Developers ensures peace of mind.</p>
-                            <ul class="space-y-4">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-brand-blue mt-1 mr-3"></i>
-                                    <div><h4 class="font-bold text-gray-900">100% Legal & Documented</h4><p class="text-sm text-gray-600">All our projects (Shivneri, Dream City, Ajinkya Tara) are NA, NOC, and Title Cleared.</p></div>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-brand-blue mt-1 mr-3"></i>
-                                    <div><h4 class="font-bold text-gray-900">Immediate Registration</h4><p class="text-sm text-gray-600">We offer immediate Sale Deed Registration for all our customers.</p></div>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-brand-blue mt-1 mr-3"></i>
-                                    <div><h4 class="font-bold text-gray-900">Mumbai Based HQ</h4><p class="text-sm text-gray-600">Accessible and transparent operations headquartered in Mumbai for your convenience.</p></div>
-                                </li>
-                            </ul>
-                            <div class="mt-8">
-                                <button onclick="showPage('sitevisit')" class="bg-brand-dark text-white px-8 py-3 rounded-lg font-bold hover:bg-gray-800 transition">Schedule a Site Visit</button>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <div class="absolute inset-0 bg-brand-green/10 rounded-2xl transform rotate-3"></div>
-                            <div class="relative bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-                                <h3 class="text-xl font-bold text-brand-dark mb-6 text-center">The Growth Trajectory</h3>
-                                <div class="space-y-6">
-                                    <div><div class="flex justify-between text-sm font-bold mb-1"><span>Real Estate (Dholera)</span> <span class="text-brand-green">High Growth</span></div><div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-brand-green h-2 rounded-full" style="width: 95%"></div></div></div>
-                                    <div><div class="flex justify-between text-sm font-bold mb-1"><span>Fixed Deposits</span> <span class="text-gray-500">Avg Growth</span></div><div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-gray-400 h-2 rounded-full" style="width: 40%"></div></div></div>
-                                    <div><div class="flex justify-between text-sm font-bold mb-1"><span>Gold</span> <span class="text-yellow-500">Stable</span></div><div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div>
-                                </div>
-                                <div class="mt-6 p-4 bg-blue-50 rounded-lg text-sm text-blue-800 text-center">"Real Estate captures <strong>49.5%</strong> of Indian investments for a reason."</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- === ABOUT US PAGE === -->
-        <div id="page-about" class="page-section">
-            <section class="py-16 bg-white">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="text-center mb-16">
-                        <span class="text-brand-green font-bold uppercase tracking-wider text-sm">Who We Are</span>
-                        <h2 class="text-4xl font-serif font-bold text-brand-dark mt-2">New Era Developers</h2>
-                        <div class="w-24 h-1 bg-brand-blue mx-auto mt-6 mb-6"></div>
-                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Headquartered in Mumbai, we are dedicated to helping Indian families secure their financial future through strategic land investments in India's first smart city, Dholera SIR.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
-                        <div class="bg-brand-light p-8 rounded-2xl">
-                            <h3 class="text-2xl font-bold text-brand-blue mb-4">Our Philosophy</h3>
-                            <p class="text-gray-600 mb-6 leading-relaxed">Our slogan <strong>"Today's Plan - Tomorrow's Success"</strong> isn't just a tagline; it's our promise. We believe that the right investment made today is the foundation for generational wealth tomorrow.</p>
-                            <div class="flex gap-4">
-                                <div class="p-4 bg-white rounded shadow-sm flex-1 text-center"><i class="fas fa-hand-holding-usd text-2xl text-brand-green mb-2"></i><h4 class="font-bold text-sm">Wealth Creation</h4></div>
-                                <div class="p-4 bg-white rounded shadow-sm flex-1 text-center"><i class="fas fa-shield-alt text-2xl text-brand-blue mb-2"></i><h4 class="font-bold text-sm">Security</h4></div>
-                                <div class="p-4 bg-white rounded shadow-sm flex-1 text-center"><i class="fas fa-chart-line text-2xl text-brand-red mb-2"></i><h4 class="font-bold text-sm">Growth</h4></div>
-                            </div>
-                        </div>
-                        <div><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800" alt="Future City" class="rounded-2xl shadow-lg w-full h-80 object-cover"></div>
-                    </div>
-                    <div class="bg-brand-dark text-white rounded-3xl p-12 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue rounded-full filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
-                        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                            <div>
-                                <h3 class="text-3xl font-serif font-bold mb-6">Where Indians Park Their Money</h3>
-                                <p class="text-blue-100 mb-8 text-lg">Data shows that Real Estate remains the most trusted asset class for Indian families, outperforming traditional savings methods.</p>
-                                <div class="space-y-4">
-                                    <div class="flex items-center justify-between border-b border-gray-700 pb-2"><span>PF / Pension</span> <span class="font-bold">5.7%</span></div>
-                                    <div class="flex items-center justify-between border-b border-gray-700 pb-2"><span>Insurance</span> <span class="font-bold">6.2%</span></div>
-                                    <div class="flex items-center justify-between border-b border-gray-700 pb-2"><span>Gold</span> <span class="font-bold text-yellow-400">15.1%</span></div>
-                                    <div class="flex items-center justify-between border-b border-gray-700 pb-2"><span>Fixed Deposits</span> <span class="font-bold text-gray-300">15.2%</span></div>
-                                    <div class="flex items-center justify-between py-2 bg-brand-blue/20 px-4 rounded"><span class="font-bold text-xl">Real Estate</span> <span class="font-bold text-2xl text-brand-green">49.5%</span></div>
-                                </div>
-                            </div>
-                            <div class="flex justify-center">
-                                <div class="relative w-64 h-64 rounded-full bg-brand-blue border-8 border-gray-800 shadow-2xl flex items-center justify-center">
-                                    <div class="text-center"><span class="block text-4xl font-bold text-white">49.5%</span><span class="text-sm uppercase tracking-widest text-blue-200">Real Estate</span></div>
-                                    <div class="absolute inset-0 rounded-full border-8 border-brand-green" style="clip-path: polygon(50% 50%, 100% 0, 100% 100%, 0 100%, 0 0);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- === SITE VISIT BOOKING PAGE === -->
-        <div id="page-sitevisit" class="page-section">
-            <section class="py-16 bg-gray-50 min-h-screen">
-                <div class="max-w-3xl mx-auto px-4">
-                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden relative">
-                        
-                        <!-- Overlay Loader -->
-                        <div id="booking-loader" class="hidden absolute inset-0 bg-white/90 z-50 flex flex-col items-center justify-center">
-                            <div class="loader mb-4"></div>
-                            <p class="text-lg font-bold text-brand-blue">Processing Booking...</p>
-                            <p class="text-sm text-gray-500">Sending details securely</p>
-                        </div>
-
-                        <!-- Header -->
-                        <div class="bg-brand-blue p-6 text-white text-center">
-                            <h2 class="text-2xl font-serif font-bold">Schedule Your Site Visit</h2>
-                            <p class="text-blue-200 text-sm mt-1">Experience the future of Dholera in person</p>
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div class="flex justify-between px-8 py-4 bg-gray-50 border-b">
-                            <div class="text-center w-1/3">
-                                <div id="step-1-indicator" class="w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center mx-auto text-sm font-bold">1</div>
-                                <p class="text-xs mt-1 font-bold text-brand-blue">Details</p>
-                            </div>
-                            <div class="text-center w-1/3">
-                                <div id="step-2-indicator" class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto text-sm font-bold">2</div>
-                                <p class="text-xs mt-1 text-gray-500">Train</p>
-                            </div>
-                            <div class="text-center w-1/3">
-                                <div id="step-3-indicator" class="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto text-sm font-bold">3</div>
-                                <p class="text-xs mt-1 text-gray-500">Payment</p>
-                            </div>
-                        </div>
-
-                        <!-- Step 1: Details -->
-                        <div id="booking-step-1" class="booking-step active p-8">
-                            <h3 class="text-xl font-bold text-gray-800 mb-6">Personal Details</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-600 mb-1">Select Date</label>
-                                    <input type="date" id="visitDate" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none">
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-bold text-gray-600 mb-1">Full Name</label>
-                                        <input type="text" id="visitName" placeholder="Enter your name" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-bold text-gray-600 mb-1">Phone Number</label>
-                                        <input type="tel" id="visitPhone" placeholder="10-digit mobile" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-600 mb-1">Number of Persons</label>
-                                    <select id="visitPersons" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none">
-                                        <option value="1">1 Person</option>
-                                        <option value="2">2 Persons</option>
-                                        <option value="3">3 Persons</option>
-                                        <option value="4">4 Persons</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button onclick="goToStep2()" class="w-full bg-brand-blue text-white py-3 rounded-lg font-bold mt-8 hover:bg-blue-800 transition">Next: Select Transport</button>
-                        </div>
-
-                        <!-- Step 2: Train Selection -->
-                        <div id="booking-step-2" class="booking-step p-8">
-                            <h3 class="text-xl font-bold text-gray-800 mb-6">Select Travel Preference</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                <!-- Option 1 -->
-                                <div class="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-brand-blue transition" onclick="selectCoach('sleeper')">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="font-bold text-gray-700">Sleeper / Normal</span>
-                                        <input type="radio" name="coachType" id="coach-sleeper" value="sleeper" class="accent-brand-blue">
-                                    </div>
-                                    <p class="text-sm text-gray-500">Standard comfortable seating/sleeper coach.</p>
-                                    <p class="text-xl font-bold text-brand-dark mt-2">₹<span id="price-sleeper-display">1500</span> <span class="text-xs font-normal text-gray-400">per person</span></p>
-                                </div>
-                                <!-- Option 2 -->
-                                <div class="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-brand-blue transition" onclick="selectCoach('ac')">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="font-bold text-brand-blue">AC Coach</span>
-                                        <input type="radio" name="coachType" id="coach-ac" value="ac" class="accent-brand-blue">
-                                    </div>
-                                    <p class="text-sm text-gray-500">Premium air-conditioned travel experience.</p>
-                                    <p class="text-xl font-bold text-brand-dark mt-2">₹<span id="price-ac-display">2500</span> <span class="text-xs font-normal text-gray-400">per person</span></p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <button onclick="goToStep1()" class="w-1/3 border border-gray-300 text-gray-600 py-3 rounded-lg font-bold hover:bg-gray-50">Back</button>
-                                <button onclick="goToStep3()" class="w-2/3 bg-brand-blue text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">Next: Review & Pay</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 3: Payment -->
-                        <div id="booking-step-3" class="booking-step p-8">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Booking Summary</h3>
-                            
-                            <div class="bg-brand-light p-4 rounded-lg mb-6 text-sm">
-                                <div class="flex justify-between mb-2"><span>Name:</span> <span class="font-bold" id="summary-name"></span></div>
-                                <div class="flex justify-between mb-2"><span>Date:</span> <span class="font-bold" id="summary-date"></span></div>
-                                <div class="flex justify-between mb-2"><span>Travel:</span> <span class="font-bold" id="summary-coach"></span></div>
-                                <div class="flex justify-between border-t border-gray-200 pt-2 mt-2">
-                                    <span class="text-lg font-bold text-brand-blue">Total Amount</span>
-                                    <span class="text-lg font-bold text-brand-blue">₹<span id="summary-total"></span></span>
-                                </div>
-                            </div>
-
-                            <div class="text-center mb-6">
-                                <p class="text-sm text-gray-500 mb-2">Scan QR Code to Pay</p>
-                                <div class="border-2 border-dashed border-gray-300 rounded-xl p-2 inline-block bg-white">
-                                    <!-- User provided QR Code filename -->
-                                    <img id="payment-qr" src="qr code.jpeg" alt="Payment QR Code" class="w-64 h-auto object-contain">
-                                </div>
-                                <p class="text-xs text-gray-400 mt-2">UPI ID: <span id="upi-id-display">naikwadebhushan-3@okaxis</span></p>
-                            </div>
-
-                            <!-- Payment Upload Section -->
-                            <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-6">
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Upload Payment Screenshot *</label>
-                                <input type="file" id="paymentScreenshot" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-blue file:text-white hover:file:bg-blue-700">
-                                <p class="text-xs text-gray-500 mt-1">Required to confirm your booking.</p>
-                            </div>
-
-                            <div class="flex gap-4 mt-8">
-                                <button onclick="goToStep2()" class="w-1/3 border border-gray-300 text-gray-600 py-3 rounded-lg font-bold hover:bg-gray-50">Back</button>
-                                <button onclick="confirmBooking()" class="w-2/3 bg-brand-green text-white py-3 rounded-lg font-bold hover:bg-green-700 transition">Confirm Payment</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 4: Success/Explore -->
-                        <div id="booking-step-4" class="booking-step p-8 text-center">
-                            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-check text-4xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Booking Confirmed!</h3>
-                            <p class="text-gray-600 mb-6">Your details and payment screenshot have been securely sent to our team. We will verify and contact you shortly.</p>
-                            
-                            <div class="bg-blue-50 p-6 rounded-xl">
-                                <h4 class="font-bold text-brand-blue mb-3">What's Next?</h4>
-                                <p class="text-sm text-gray-600 mb-4">While we finalize your itinerary, why not explore more about your future investment?</p>
-                                <button onclick="showPage('projects')" class="w-full bg-brand-blue text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">
-                                    Explore Projects <i class="fas fa-arrow-right ml-2"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Remaining Pages -->
-        <div id="page-dholera" class="page-section">
-            <section class="py-16 bg-white">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="text-center mb-12">
-                        <h2 class="text-4xl font-serif font-bold text-brand-dark">The Global Smart City</h2>
-                        <div class="w-24 h-1 bg-brand-blue mx-auto mt-4"></div>
-                        <p class="mt-4 text-gray-600 max-w-2xl mx-auto">"It's like Dubai, Singapore & Shanghai" - Dholera SIR is 2x the size of Mumbai and bigger than Singapore.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20 bg-brand-light p-8 rounded-2xl">
-                        <div>
-                            <h3 class="text-2xl font-bold text-brand-blue mb-4">Scale Comparison</h3>
-                            <ul class="space-y-4">
-                                <li class="flex items-center justify-between p-4 bg-white rounded shadow-sm border-l-4 border-brand-green"><span class="font-bold">Dholera SIR</span><span class="text-2xl font-bold text-brand-green">920 <span class="text-sm text-gray-500 font-normal">Sq. Km</span></span></li>
-                                <li class="flex items-center justify-between p-4 bg-white rounded shadow-sm opacity-70"><span class="font-bold">Singapore</span><span class="text-xl font-bold text-gray-600">728 <span class="text-sm text-gray-500 font-normal">Sq. Km</span></span></li>
-                                <li class="flex items-center justify-between p-4 bg-white rounded shadow-sm opacity-70"><span class="font-bold">Mumbai</span><span class="text-xl font-bold text-gray-600">603 <span class="text-sm text-gray-500 font-normal">Sq. Km</span></span></li>
-                            </ul>
-                        </div>
-                        <div class="text-center">
-                            <h3 class="text-2xl font-bold text-brand-dark mb-6">Massive Infrastructure</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="p-4 bg-white rounded shadow text-brand-blue font-bold">Intl. Airport</div>
-                                <div class="p-4 bg-white rounded shadow text-brand-green font-bold">Solar Park</div>
-                                <div class="p-4 bg-white rounded shadow text-brand-red font-bold">Metro Rail</div>
-                                <div class="p-4 bg-white rounded shadow text-indigo-600 font-bold">Expressway</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <div id="page-projects" class="page-section">
-            <section class="py-16 bg-brand-light">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex flex-col md:flex-row justify-between items-end mb-10">
-                        <div><h2 class="text-3xl font-serif font-bold text-brand-dark">Our Featured Projects</h2></div>
-                        <div class="mt-6 md:mt-0 flex bg-white p-1 rounded-lg shadow-sm border">
-                            <button onclick="switchProject('shivneri')" id="tab-shivneri" class="px-6 py-2 rounded-md text-sm font-bold bg-brand-blue text-white shadow-sm transition">Shivneri</button>
-                            <button onclick="switchProject('dreamcity')" id="tab-dreamcity" class="px-6 py-2 rounded-md text-sm font-bold text-gray-500 hover:bg-gray-50 transition">Dream City</button>
-                            <button onclick="switchProject('ajinkyatara')" id="tab-ajinkyatara" class="px-6 py-2 rounded-md text-sm font-bold text-gray-500 hover:bg-gray-50 transition">Ajinkya Tara</button>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        <div class="lg:col-span-4 space-y-6">
-                            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-full">
-                                <h3 id="project-title" class="text-2xl font-serif font-bold text-brand-blue mb-1">Shivneri</h3>
-                                <p id="project-location" class="text-sm font-medium text-gray-500 mb-4"><i class="fas fa-map-marker-alt mr-2"></i>Village Ottariya</p>
-                                <p id="project-desc" class="text-gray-600 text-sm mb-6 leading-relaxed">Located inside Dholera SIR.</p>
-                                <div class="grid grid-cols-2 gap-3 mb-6">
-                                    <div class="bg-green-50 p-3 rounded text-center border border-green-100"><span class="block text-xl font-bold text-brand-green" id="count-available">0</span><span class="text-xs uppercase font-bold text-green-800">Available</span></div>
-                                    <div class="bg-red-50 p-3 rounded text-center border border-red-100"><span class="block text-xl font-bold text-brand-red" id="count-sold">0</span><span class="text-xs uppercase font-bold text-red-800">Sold</span></div>
-                                </div>
-                                <div><h4 class="font-bold text-sm text-gray-800 mb-3 border-b pb-2">Amenities</h4><ul id="amenities-list" class="space-y-2 text-sm text-gray-600"></ul></div>
-                            </div>
-                        </div>
-                        <div class="lg:col-span-8">
-                            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 min-h-[600px] flex flex-col">
-                                <div class="flex justify-between items-center mb-4 pb-2 border-b">
-                                    <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Interactive Map</span>
-                                    <div class="flex gap-4 text-xs">
-                                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-white border border-green-600 rounded-sm"></div> Avail</span>
-                                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-red-100 border border-red-600 rounded-sm"></div> Sold</span>
-                                    </div>
-                                </div>
-                                <div id="map-container" class="flex-grow relative overflow-auto"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <div id="page-events" class="page-section">
-            <section class="py-16 bg-white">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="text-center mb-12"><h2 class="text-4xl font-serif font-bold text-brand-dark">Company Events</h2></div>
-                    <div class="admin-only-section mb-10 bg-gray-100 p-6 rounded-lg border border-brand-green">
-                        <h3 class="font-bold text-brand-green mb-4">Add New Event</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" id="eventTitle" placeholder="Event Title" class="p-2 border rounded">
-                            <input type="date" id="eventDate" class="p-2 border rounded">
-                            <input type="text" id="eventImg" placeholder="Image URL" class="p-2 border rounded">
-                            <textarea id="eventDesc" placeholder="Description" class="p-2 border rounded"></textarea>
-                        </div>
-                        <button onclick="addEvent()" class="mt-4 bg-brand-green text-white px-4 py-2 rounded font-bold">Post Event</button>
-                    </div>
-                    <div id="events-container" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
-                </div>
-            </section>
-        </div>
-
-        <div id="page-gallery" class="page-section">
-            <section class="py-16 bg-brand-light">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="text-center mb-12"><h2 class="text-4xl font-serif font-bold text-brand-dark">Media Gallery</h2></div>
-                    <div class="admin-only-section mb-10 bg-gray-100 p-6 rounded-lg border border-brand-blue">
-                        <h3 class="font-bold text-brand-blue mb-4">Add To Gallery</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" id="galleryUrl" placeholder="Image/Video URL" class="p-2 border rounded">
-                            <input type="text" id="galleryCaption" placeholder="Caption" class="p-2 border rounded">
-                        </div>
-                        <button onclick="addGalleryItem()" class="mt-4 bg-brand-blue text-white px-4 py-2 rounded font-bold">Add Media</button>
-                    </div>
-                    <div id="gallery-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"></div>
-                </div>
-            </section>
-        </div>
-
-        <div id="page-contact" class="page-section">
-            <section class="py-16 bg-brand-blue text-white min-h-[80vh] flex items-center">
-                <div class="max-w-7xl mx-auto px-4 w-full">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <h2 class="text-4xl font-serif font-bold mb-6">Start Your Investment Journey</h2>
-                            <p class="text-blue-100 mb-8 text-lg">Contact New Era Developers (Mumbai) for site visits and booking inquiries.</p>
-                            <div class="space-y-6">
-                                <div class="flex items-center gap-4"><div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><i class="fas fa-phone-alt text-xl"></i></div><div><p class="text-sm opacity-70">Call Us</p><p class="text-xl font-bold">+91 88280 90745</p></div></div>
-                                <div class="flex items-center gap-4"><div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center"><i class="fas fa-globe text-xl"></i></div><div><p class="text-sm opacity-70">Visit Website</p><p class="text-xl font-bold">www.neweradevelopers.co.in</p></div></div>
-                            </div>
-                        </div>
-                        <div class="bg-white text-gray-800 p-8 rounded-2xl shadow-2xl">
-                            <h3 class="text-2xl font-bold mb-6 text-brand-dark">Enquire Now</h3>
-                            <form onsubmit="event.preventDefault(); alert('Thank you! We will contact you shortly.');">
-                                <div class="mb-4"><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Name</label><input type="text" class="w-full border-b-2 border-gray-200 py-2 focus:outline-none focus:border-brand-blue transition" placeholder="John Doe"></div>
-                                <div class="mb-4"><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Phone</label><input type="tel" class="w-full border-b-2 border-gray-200 py-2 focus:outline-none focus:border-brand-blue transition" placeholder="+91 XXXXX XXXXX"></div>
-                                <div class="mb-6"><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Project Interest</label><select class="w-full border-b-2 border-gray-200 py-2 focus:outline-none focus:border-brand-blue bg-white"><option>Shivneri</option><option>Dream City</option><option>Ajinkya Tara</option></select></div>
-                                <button class="w-full bg-brand-green text-white py-3 rounded-lg font-bold hover:bg-green-700 transition">Submit Inquiry</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-brand-dark text-gray-400 py-8 border-t border-gray-800 text-center text-sm mt-auto">
-        <p>&copy; 2024 New Era Developers. "today's plan - tomorrow's success"</p>
-    </footer>
-
-    <!-- Plot Detail Modal -->
-    <div id="plotModal" class="fixed inset-0 z-50 hidden" aria-modal="true">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden transform transition-all scale-100">
-                <div class="bg-brand-blue p-6 text-white">
-                    <button onclick="closeModal()" class="absolute top-4 right-4 text-white/70 hover:text-white"><i class="fas fa-times text-xl"></i></button>
-                    <h3 class="text-2xl font-serif font-bold">Plot #<span id="modal-id"></span></h3>
-                    <p class="text-blue-100 text-sm" id="modal-project"></p>
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-6 pb-6 border-b border-gray-100">
-                        <div><p class="text-xs text-gray-500 uppercase font-bold">Area</p><p class="text-xl font-bold text-gray-800"><span id="modal-size"></span> <span class="text-sm font-normal text-gray-500">sq.yds</span></p></div>
-                        <div class="text-right"><p class="text-xs text-gray-500 uppercase font-bold">Price</p><p class="text-xl font-bold text-brand-green" id="modal-price"></p></div>
-                    </div>
-                    <div class="mb-6"><p class="text-xs text-gray-500 uppercase font-bold mb-2">Status</p><span id="modal-status" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"></span></div>
-                    <div id="admin-controls" class="hidden bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
-                        <p class="text-xs font-bold text-brand-blue uppercase mb-3 flex items-center"><i class="fas fa-cog mr-2"></i> Edit Plot Details</p>
-                        <div class="space-y-3">
-                            <div><label class="text-xs text-gray-500">Status</label><select id="admin-status" class="w-full border p-1 rounded text-sm bg-white"><option value="available">Available</option><option value="sold">Sold</option><option value="reserved">Reserved</option></select></div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div><label class="text-xs text-gray-500">Size (sq.yd)</label><input type="number" id="admin-size" class="w-full border p-1 rounded text-sm"></div>
-                                <div><label class="text-xs text-gray-500">Price Label</label><input type="text" id="admin-price" class="w-full border p-1 rounded text-sm"></div>
-                            </div>
-                            <button onclick="savePlotChanges()" class="w-full bg-brand-blue text-white py-2 rounded text-xs font-bold hover:bg-blue-800">Save Changes</button>
-                        </div>
-                    </div>
-                    <div id="user-actions" class="grid grid-cols-2 gap-3">
-                        <button onclick="enquireWhatsApp()" class="col-span-2 bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> Enquire on WhatsApp</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <nav class="navbar">
+    <div class="royal-container flex h-20 items-center justify-between gap-4">
+      <a href="index.html"><img src="public/images/logo.png" alt="A New Era Developers logo" class="h-12"></a>
+      <div class="hidden md:flex items-center gap-8">
+        <a class="nav-link active" href="index.html">Home</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="#vision">Dholera Vision</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </div>
+      <div class="hidden md:block"><a class="btn-royal" href="booking.html">Book Site Visit</a></div>
+      <button data-mobile-toggle class="md:hidden text-[var(--royal-blue)] text-2xl">☰</button>
     </div>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="fixed inset-0 z-50 hidden" aria-modal="true">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="document.getElementById('loginModal').classList.add('hidden')"></div>
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-xl shadow-xl p-8 w-full max-w-sm relative z-10">
-                <h3 class="text-xl font-bold text-gray-900 mb-1">Admin Login</h3>
-                <p class="text-sm text-gray-500 mb-6">Enter credentials (password: admin).</p>
-                <input type="password" id="adminPassword" placeholder="Password" class="w-full border p-3 rounded-lg mb-4 focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none">
-                <button onclick="checkLogin()" class="w-full bg-brand-blue text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">Access Dashboard</button>
-            </div>
-        </div>
+    <div data-mobile-menu class="hidden fixed inset-0 bg-[var(--royal-blue)] p-10 text-white md:hidden">
+      <div class="flex justify-end"><button data-mobile-toggle class="text-3xl">×</button></div>
+      <div class="mt-16 flex flex-col items-center gap-8 text-2xl font-ui">
+        <a href="index.html">Home</a><a href="projects.html">Projects</a><a href="booking.html">Book Visit</a><a href="#contact">Contact</a>
+      </div>
     </div>
+  </nav>
 
-    <!-- Admin Settings & Reports Modal -->
-    <div id="adminSettingsModal" class="fixed inset-0 z-50 hidden" aria-modal="true">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="document.getElementById('adminSettingsModal').classList.add('hidden')"></div>
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-xl shadow-xl p-8 w-full max-w-2xl relative z-10 max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-center mb-6 border-b pb-4">
-                    <h3 class="text-2xl font-bold text-gray-900">Admin Dashboard</h3>
-                    <button onclick="document.getElementById('adminSettingsModal').classList.add('hidden')" class="text-gray-500 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
-                </div>
+  <main class="pt-20">
+    <section class="relative min-h-screen flex items-center justify-center text-center text-white overflow-hidden" data-reveal>
+      <div class="hero-slide active" data-hero-slide="1" style="background-image:url('public/images/s1.jpg')"></div>
+      <div class="hero-slide" data-hero-slide="2" style="background-image:url('public/images/s2.jpg')"></div>
+      <div class="hero-slide" data-hero-slide="3" style="background-image:url('public/images/s3.jpg')"></div>
+      <div class="absolute inset-0" style="background: linear-gradient(160deg, rgba(26,35,126,0.78) 0%, rgba(183,28,28,0.55) 100%);"></div>
+      <div class="royal-container relative z-10 py-20">
+        <p class="section-label text-[var(--gold-light)]" data-site-text="heroLabel">--- DHOLERA SIR · MIRA ROAD ---</p>
+        <h1 class="font-display text-5xl md:text-8xl mt-4" data-site-text="heroTitle">Building Tomorrow's Legacy</h1>
+        <h2 class="font-heading italic text-2xl mt-3 text-[var(--gold-light)]" data-site-text="heroSubtitle">Premium Land & Architectural Construction Across India</h2>
+        <div class="mt-9 flex flex-wrap justify-center gap-4"><a class="btn-gold" href="projects.html">Explore Projects</a><a class="btn-outline !bg-transparent !text-white !border-white" href="booking.html">Book a Site Visit</a></div>
+      </div>
+      <div class="absolute bottom-0 w-full border-t border-[var(--gold-bright)] bg-white/10 backdrop-blur-lg py-4 text-sm md:text-base">
+        <div class="royal-container flex flex-wrap items-center justify-center gap-6 text-[var(--gold-light)]"><span data-site-text="heroStat1">12+ Years</span><span data-site-text="heroStat2">500+ Plots</span><span data-site-text="heroStat3">3 Landmark Projects</span><span data-site-text="heroStat4">₹500Cr+ Assets</span></div>
+      </div>
+    </section>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Column 1: Settings -->
-                    <div>
-                        <h4 class="font-bold text-brand-blue mb-4 uppercase text-xs tracking-widest">General Settings</h4>
-                        <div class="space-y-4 mb-8">
-                            <div><label class="block text-sm font-bold text-gray-600 mb-1">Sleeper Ticket (₹)</label><input type="number" id="setting-price-sleeper" class="w-full border p-2 rounded"></div>
-                            <div><label class="block text-sm font-bold text-gray-600 mb-1">AC Ticket (₹)</label><input type="number" id="setting-price-ac" class="w-full border p-2 rounded"></div>
-                            <div><label class="block text-sm font-bold text-gray-600 mb-1">UPI ID</label><input type="text" id="setting-upi-id" class="w-full border p-2 rounded"></div>
-                            <div>
-                                <label class="block text-sm font-bold text-gray-600 mb-1">Upload QR Code Image</label>
-                                <input type="file" id="setting-qr-upload" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-blue file:text-white hover:file:bg-blue-700">
-                                <p class="text-xs text-gray-500 mt-1">Current: <span id="current-qr-name">Default/Uploaded</span></p>
-                            </div>
-                            <button onclick="saveAdminSettings()" class="w-full bg-gray-800 text-white py-2 rounded font-bold hover:bg-black text-sm">Save Changes</button>
-                        </div>
-
-                        <h4 class="font-bold text-brand-green mb-4 uppercase text-xs tracking-widest">Monthly Reports</h4>
-                        <div class="bg-green-50 p-4 rounded-lg border border-green-100">
-                            <div class="flex justify-between items-center mb-2"><span class="text-sm font-bold">Total Bookings:</span><span id="report-count" class="text-brand-blue">0</span></div>
-                            <div class="flex justify-between items-center mb-4"><span class="text-sm font-bold">Total Revenue:</span><span id="report-revenue" class="text-brand-green">₹0</span></div>
-                            <button onclick="generateMonthlyReport()" class="w-full bg-brand-green text-white py-2 rounded font-bold hover:bg-green-700 text-sm"><i class="fab fa-whatsapp mr-2"></i> Send Report to Self</button>
-                        </div>
-                    </div>
-
-                    <!-- Column 2: Incoming Bookings -->
-                    <div>
-                        <h4 class="font-bold text-brand-red mb-4 uppercase text-xs tracking-widest">Incoming Bookings</h4>
-                        <div id="admin-bookings-list" class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
-                            <!-- JS Injected -->
-                            <p class="text-gray-400 text-sm italic">No bookings yet.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="section-white py-20 ornament-bg watermark-arch" data-reveal>
+      <div class="royal-container">
+        <div class="text-center mb-10"><p class="section-label">--- OUR DUAL STRENGTH ---</p><h2 class="font-heading text-4xl mt-3">Our Two Pillars of Excellence</h2></div>
+        <div class="split-wrap rounded-2xl overflow-hidden shadow-[var(--shadow-royal)]">
+          <article class="split-panel left p-8 md:p-12" style="background-image:url('public/images/s2.jpg')">
+            <div class="relative z-10"><h3 class="font-display text-3xl text-white">Land Development</h3><ul class="mt-5 space-y-2 font-ui"><li>Curated NA/NOC-cleared plot inventory in Dholera SIR.</li><li>Survey-backed layout planning with legal clarity.</li><li>Investor-first advisory for long-term appreciation.</li></ul><a href="projects.html" class="inline-block mt-6 text-[var(--gold-light)] font-label uppercase tracking-wider">Explore Plots →</a></div>
+          </article>
+          <article class="split-panel right p-8 md:p-12" style="background-image:url('public/images/s3.jpg')">
+            <div class="relative z-10"><h3 class="font-display text-3xl text-white">Building Construction</h3><ul class="mt-5 space-y-2 font-ui"><li>Residential and commercial developments with timeless detailing.</li><li>Project planning guided by quality and efficiency benchmarks.</li><li>End-to-end execution from concept to possession.</li></ul><a href="projects.html" class="inline-block mt-6 text-[var(--gold-light)] font-label uppercase tracking-wider">Explore Buildings →</a></div>
+          </article>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <!-- Payment Modal for Admin View -->
-    <div id="paymentViewModal" class="fixed inset-0 z-[60] hidden" aria-modal="true">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="document.getElementById('paymentViewModal').classList.add('hidden')"></div>
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="relative z-10">
-                <img id="admin-view-payment-img" src="" class="max-h-[80vh] max-w-full rounded shadow-2xl">
-                <button onclick="document.getElementById('paymentViewModal').classList.add('hidden')" class="absolute -top-10 right-0 text-white hover:text-gray-300"><i class="fas fa-times text-2xl"></i> Close</button>
-            </div>
+    <section class="section-blue py-20 ornament-bg watermark-crown" id="portfolio" data-reveal>
+      <div class="royal-container">
+        <div class="text-center mb-8"><p class="section-label">--- OUR PORTFOLIO ---</p><h2 class="font-heading text-4xl mt-3">Landmark Projects Across India</h2></div>
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+          <button class="btn-royal !rounded-full !py-2 !px-5" data-filter="all" aria-pressed="true">All Projects</button>
+          <button class="btn-outline !rounded-full !py-2 !px-5" data-filter="land" aria-pressed="false">Land Development</button>
+          <button class="btn-outline !rounded-full !py-2 !px-5" data-filter="construction" aria-pressed="false">Building Construction</button>
         </div>
+        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+          <article class="royal-card project-card overflow-hidden cursor-pointer" data-sector="land" data-land-slug="shivneri" data-title="Shivneri" data-description="A flagship Dholera SIR land community with planning discipline and strategic location value."><img src="public/images/s1.jpg" alt="Shivneri project" class="w-full aspect-video object-cover"><div class="p-5"><div class="flex justify-between"><span class="sector-badge bg-[var(--royal-blue)] text-white rounded-full px-3 py-1">Land Dev</span><span class="status-badge bg-[var(--royal-green)] text-white rounded-full px-3 py-1">Ongoing</span></div><h3 class="font-heading text-2xl mt-4">Shivneri</h3><p class="font-ui text-[var(--text-light)]">Dholera SIR, Gujarat</p><p class="mt-3 text-[var(--royal-blue)] font-ui">View Details →</p></div></article>
+          <article class="royal-card project-card overflow-hidden cursor-pointer" data-sector="land" data-land-slug="dreamcity" data-title="Land Project II" data-description="Select inventory aligned to the future mobility and industry corridors."><img src="public/images/s2.jpg" alt="Future land development" class="w-full aspect-video object-cover"><div class="p-5"><div class="flex justify-between"><span class="sector-badge bg-[var(--royal-blue)] text-white rounded-full px-3 py-1">Land Dev</span><span class="status-badge bg-[var(--gold)] text-white rounded-full px-3 py-1">Upcoming</span></div><h3 class="font-heading text-2xl mt-4">Land Project II</h3><p class="font-ui text-[var(--text-light)]">Dholera SIR, Gujarat</p><p class="mt-3 text-[var(--royal-blue)] font-ui">View Details →</p></div></article>
+          <article class="royal-card project-card overflow-hidden cursor-pointer" data-sector="construction" data-title="Mira Residence One" data-description="A premium residential proposition in Mira Road crafted for modern families."><img src="public/images/s3.jpg" alt="Residential construction project" class="w-full aspect-video object-cover"><div class="p-5"><div class="flex justify-between"><span class="sector-badge bg-[var(--royal-red)] text-white rounded-full px-3 py-1">Construction</span><span class="status-badge bg-[var(--royal-blue)] text-white rounded-full px-3 py-1">Completed</span></div><h3 class="font-heading text-2xl mt-4">Mira Residence One</h3><p class="font-ui text-[var(--text-light)]">Mira Road, Maharashtra</p><p class="mt-3 text-[var(--royal-blue)] font-ui">View Details →</p></div></article>
+          <article class="royal-card project-card overflow-hidden cursor-pointer" data-sector="construction" data-title="Commerce Square" data-description="Commercial development designed for high-footfall and long-term business value."><img src="public/images/s1.jpg" alt="Commercial construction project" class="w-full aspect-video object-cover"><div class="p-5"><div class="flex justify-between"><span class="sector-badge bg-[var(--royal-red)] text-white rounded-full px-3 py-1">Construction</span><span class="status-badge bg-[var(--gold)] text-white rounded-full px-3 py-1">Upcoming</span></div><h3 class="font-heading text-2xl mt-4">Commerce Square</h3><p class="font-ui text-[var(--text-light)]">TBD</p><p class="mt-3 text-[var(--royal-blue)] font-ui">View Details →</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="vision" class="section-white py-20 gold-rule" data-reveal>
+      <div class="royal-container">
+        <div class="text-center mb-10"><p class="section-label">--- NATIONAL VISION ---</p><h2 class="font-heading text-4xl mt-3">Dholera and India's Next Era</h2></div>
+        <div class="grid md:grid-cols-4 gap-5 mb-12">
+          <article class="royal-card p-5"><h3 class="font-display text-3xl text-[var(--royal-blue)]">920</h3><p>Square kilometer visionary smart-region footprint.</p></article>
+          <article class="royal-card p-5"><h3 class="font-display text-3xl text-[var(--royal-blue)]">6x</h3><p>Scale advantage compared with several legacy metros.</p></article>
+          <article class="royal-card p-5"><h3 class="font-display text-3xl text-[var(--royal-blue)]">Tata</h3><p>Strategic industrial participation underway.</p></article>
+          <article class="royal-card p-5"><h3 class="font-display text-3xl text-[var(--royal-blue)]">Airbus</h3><p>Global confidence in regional manufacturing vision.</p></article>
+        </div>
+        <div class="rounded-2xl border border-[var(--gold-bright)] p-7 md:p-10 text-white" style="background:var(--gradient-royal)">
+          <h3 class="font-display text-3xl mb-6">Your Investment, Projected</h3>
+          <div class="grid md:grid-cols-3 gap-4">
+            <label>Plot area (sq. yards)<input id="plot-area" type="number" class="w-full rounded border border-[var(--gold-light)] bg-white text-[var(--text-dark)] p-2 mt-2" value="300"></label>
+            <label>Purchase year<input id="purchase-year" type="number" class="w-full rounded border border-[var(--gold-light)] bg-white text-[var(--text-dark)] p-2 mt-2" value="2026"></label>
+            <label>Target sale year<input id="sale-year" type="number" class="w-full rounded border border-[var(--gold-light)] bg-white text-[var(--text-dark)] p-2 mt-2" value="2032"></label>
+          </div>
+          <button id="calc-btn" class="btn-gold mt-5">Calculate Projection</button>
+          <div class="mt-6 space-y-4">
+            <div><p>Conservative <span data-value="conservative">₹0</span></p><div class="h-2 rounded bg-white/20"><div data-bar="conservative" class="h-2 rounded bg-[var(--gold-bright)] w-0"></div></div></div>
+            <div><p>Moderate <span data-value="moderate">₹0</span></p><div class="h-2 rounded bg-white/20"><div data-bar="moderate" class="h-2 rounded bg-[var(--gold-bright)] w-0"></div></div></div>
+            <div><p>Optimistic <span data-value="optimistic">₹0</span></p><div class="h-2 rounded bg-white/20"><div data-bar="optimistic" class="h-2 rounded bg-[var(--gold-bright)] w-0"></div></div></div>
+          </div>
+          <p class="mt-4 text-sm italic text-[var(--gold-light)]">Projection is indicative only and not a guarantee of returns.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-gold py-20" data-reveal>
+      <div class="royal-container">
+        <div class="text-center mb-10"><p class="section-label">--- WHY CHOOSE US ---</p><h2 class="font-heading text-4xl mt-3">A Distinguished Standard of Delivery</h2></div>
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <article class="royal-card p-6"><h3 class="font-ui font-semibold">RERA Registered</h3><p>Accountable delivery anchored in compliant governance.</p></article>
+          <article class="royal-card p-6"><h3 class="font-ui font-semibold">DMIC Alignment</h3><p>Location strategy tuned to growth corridors and mobility.</p></article>
+          <article class="royal-card p-6"><h3 class="font-ui font-semibold">Transparent Pricing</h3><p>Clear disclosures and milestone-based communication.</p></article>
+          <article class="royal-card p-6"><h3 class="font-ui font-semibold">Legal Clarity</h3><p>Documentation-first process for confident ownership.</p></article>
+          <article class="royal-card p-6"><h3 class="font-ui font-semibold">Expert Guidance</h3><p>Advisory crafted for HNIs, NRIs, and first-time families.</p></article>
+          <article class="royal-card p-6"><h3 class="font-ui font-semibold">Construction Quality</h3><p>Detail-led execution standards for timeless outcomes.</p></article>
+        </div>
+        <div class="mt-10 rounded-xl p-6 text-white text-center" style="background:var(--gradient-royal)">
+          <div class="grid md:grid-cols-3 gap-6 font-display text-4xl">
+            <div><span data-counter="500">0</span><p class="font-label text-sm text-[var(--gold-light)]">Plots Curated</p></div>
+            <div><span data-counter="1200">0</span><p class="font-label text-sm text-[var(--gold-light)]">Families Advised</p></div>
+            <div><span data-counter="12">0</span><p class="font-label text-sm text-[var(--gold-light)]">Years of Trust</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-blue py-20 ornament-bg watermark-crown" data-reveal>
+      <div class="royal-container">
+        <div class="text-center mb-8"><p class="section-label">--- VOICES OF TRUST ---</p><h2 class="font-heading text-4xl mt-3">What Clients Say</h2></div>
+        <div class="overflow-hidden">
+          <div class="testimonials-track">
+            <article class="royal-card p-5 w-80"><p class="text-[var(--gold)]">★★★★★</p><p class="italic">Their team handled legal clarity and guidance with rare discipline.</p><p class="font-ui mt-3">Arvind Shah <span class="bg-[var(--royal-blue)] text-white text-xs px-2 py-1 rounded-full">✓ Verified</span></p></article>
+            <article class="royal-card p-5 w-80"><p class="text-[var(--gold)]">★★★★★</p><p class="italic">A dignified investor experience from the first call to closure.</p><p class="font-ui mt-3">Neha Mehta <span class="bg-[var(--royal-blue)] text-white text-xs px-2 py-1 rounded-full">✓ Verified</span></p></article>
+            <article class="royal-card p-5 w-80"><p class="text-[var(--gold)]">★★★★★</p><p class="italic">Construction quality and communication were both dependable.</p><p class="font-ui mt-3">Rohan Vora <span class="bg-[var(--royal-blue)] text-white text-xs px-2 py-1 rounded-full">✓ Verified</span></p></article>
+            <article class="royal-card p-5 w-80"><p class="text-[var(--gold)]">★★★★★</p><p class="italic">Their team handled legal clarity and guidance with rare discipline.</p><p class="font-ui mt-3">Arvind Shah <span class="bg-[var(--royal-blue)] text-white text-xs px-2 py-1 rounded-full">✓ Verified</span></p></article>
+          </div>
+        </div>
+        <div class="mt-8 text-center"><button id="review-trigger" class="btn-gold">Share Your Experience</button></div>
+      </div>
+    </section>
+
+    <section class="section-pearl py-20" data-reveal>
+      <div class="royal-container">
+        <div class="text-center mb-8"><p class="section-label">--- PLAN YOUR VISIT ---</p><h2 class="font-heading text-4xl mt-3">Three-Step Booking Journey</h2></div>
+        <div class="text-center"><a href="booking.html" class="btn-royal">Start Booking</a></div>
+      </div>
+    </section>
+
+    <section id="about" class="section-white py-16 gold-rule" data-reveal>
+      <div class="royal-container max-w-3xl mx-auto text-center">
+        <p class="section-label">--- ABOUT US ---</p>
+        <h2 class="font-heading text-3xl md:text-4xl mt-3">A New Era Developers</h2>
+        <p class="font-ui text-[var(--text-mid)] mt-4 leading-relaxed">Headquartered in Mira Road, we curate land and construction opportunities with legal clarity and disciplined execution—built for families and investors who think in decades, not quarters.</p>
+      </div>
+    </section>
+
+    <section id="events" class="section-gold py-16" data-reveal>
+      <div class="royal-container max-w-3xl mx-auto text-center">
+        <p class="section-label">--- EVENTS ---</p>
+        <h2 class="font-heading text-3xl md:text-4xl mt-3">Investor &amp; Site Experiences</h2>
+        <p class="font-ui text-[var(--text-mid)] mt-4 leading-relaxed">Guided site visits, Dholera briefings, and curated walkthroughs. Dates are announced to registered clients—enquire to join the next session.</p>
+      </div>
+    </section>
+
+    <section id="gallery" class="section-blue py-16 ornament-bg watermark-crown" data-reveal>
+      <div class="royal-container max-w-3xl mx-auto text-center">
+        <p class="section-label">--- GALLERY ---</p>
+        <h2 class="font-heading text-3xl md:text-4xl mt-3">Sites &amp; Landmarks</h2>
+        <p class="font-ui text-[var(--text-mid)] mt-4 leading-relaxed">A visual journal of development milestones across Dholera SIR and our construction portfolio. Full gallery updates are shared with enquiry groups.</p>
+      </div>
+    </section>
+
+    <section class="section-white py-20" id="contact" data-reveal>
+      <div class="royal-container grid md:grid-cols-2 gap-8">
+        <div class="bg-[var(--royal-blue-tint)] rounded-2xl p-6">
+          <h3 class="font-heading text-3xl mb-4">Reach Us</h3>
+          <div class="space-y-3">
+            <a href="tel:+917208324505" data-site-phone-link data-site-text="phone" class="contact-link">+91 7208324505</a>
+            <a href="mailto:aneweradevelopers@gmail.com" data-site-email-link data-site-text="email" class="contact-link">aneweradevelopers@gmail.com</a>
+            <a href="https://maps.app.goo.gl/8gdfFF9iGdgBigTX6" data-site-map-link target="_blank" rel="noopener noreferrer" class="contact-link">📍 <span data-site-text="address">Shanti Enclave, B-603, near Mira Road, Shanti Vihar, Mira Road East, Thane, Mira Bhayandar, Maharashtra 401107</span></a>
+          </div>
+          <iframe title="A New Era Developers office location" data-site-map-embed class="mt-6 w-full h-64 rounded-xl border-2 border-[var(--gold-bright)]" src="https://maps.google.com/maps?q=Shanti%20Enclave%20Mira%20Road&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+        </div>
+        <form class="royal-card p-6" data-wa-form="homepage-contact">
+          <h4 class="font-heading text-2xl mb-4">Send an Enquiry</h4>
+          <div class="space-y-4">
+            <input name="name" class="w-full p-3 border border-[var(--silver)] rounded focus:border-[var(--royal-blue)]" placeholder="Your name">
+            <input name="phone" class="w-full p-3 border border-[var(--silver)] rounded focus:border-[var(--royal-blue)]" placeholder="Phone">
+            <input name="email" class="w-full p-3 border border-[var(--silver)] rounded focus:border-[var(--royal-blue)]" placeholder="Email">
+            <textarea name="message" class="w-full p-3 border border-[var(--silver)] rounded focus:border-[var(--royal-blue)]" rows="5" placeholder="Tell us what you want to build or invest in"></textarea>
+          </div>
+          <button class="btn-royal mt-5" data-wa-submit type="button">Submit on WhatsApp</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pt-12 text-white" style="background:var(--gradient-royal); border-top:3px solid var(--gold-bright);">
+    <div class="royal-container grid md:grid-cols-2 xl:grid-cols-4 gap-8 pb-8">
+      <div><img src="public/images/logo.png" alt="A New Era Developers logo" class="h-14 brightness-200"><p class="font-heading italic text-[var(--gold-light)] mt-3" data-site-text="companyTagline">Crafting legacy through visionary land and construction.</p></div>
+      <div><h4 class="font-label uppercase tracking-wider text-[var(--gold-light)]">Quick Links</h4><ul class="mt-3 space-y-2"><li><a href="index.html">Home</a></li><li><a href="projects.html">Projects</a></li><li><a href="booking.html">Book Visit</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div><h4 class="font-label uppercase tracking-wider text-[var(--gold-light)]">Projects</h4><ul class="mt-3 space-y-2"><li>Shivneri - Land Development</li><li>Land Project II - Upcoming</li><li>Mira Residence One - Residential</li><li>Commerce Square - Commercial</li></ul></div>
+      <div><h4 class="font-label uppercase tracking-wider text-[var(--gold-light)]">Contact</h4><ul class="mt-3 space-y-2"><li><a href="tel:+917208324505" data-site-phone-link data-site-text="phone">+91 7208324505</a></li><li><a href="mailto:aneweradevelopers@gmail.com" data-site-email-link data-site-text="email">aneweradevelopers@gmail.com</a></li><li><a href="https://maps.app.goo.gl/8gdfFF9iGdgBigTX6" data-site-map-link target="_blank" rel="noopener noreferrer">View Office on Maps</a></li></ul></div>
     </div>
+    <div class="py-3 text-sm" style="background: rgba(0,0,0,0.2);"><div class="royal-container flex flex-wrap gap-3 justify-between items-center"><span>© <span data-year></span> <span data-site-text="companyName">A New Era Developers</span>. All Rights Reserved.</span><nav class="footer-fine-print" aria-label="Legal"><a href="#" class="footer-fine-link">Terms of Use</a><span class="footer-fine-sep" aria-hidden="true">·</span><a href="admin.html" class="footer-stealth-admin" tabindex="-1">Policies</a><span class="footer-fine-sep" aria-hidden="true">·</span><a href="#" class="footer-fine-link">Disclaimer</a></nav><span>RERA Registration No. <span data-site-text="reraNo">Applied</span></span><span>Proudly Built in India</span></div></div>
+  </footer>
 
-    <script>
-        // --- CONFIG & STATE ---
-        const projects = {
-            'shivneri': {
-                title: 'Shivneri', location: 'Village Ottariya, Dholera SIR', type: 'layout',
-                desc: 'Located inside Dholera SIR (Survey No. 183, FP No. 145). Features 12m and 7.5m wide internal roads.',
-                amenities: ['Gazebo & Senior Citizen Park', 'Joggers Park & Children Park', 'CCTV Camera & Security Cabin', 'Underground Water & Electricity'],
-                plots: [
-                    {id: '1', size: 352, pos: 's-plot-1'}, {id: '2', size: 352, pos: 's-plot-2'}, {id: '3', size: 700, pos: 's-plot-3'},
-                    {id: '4', size: 404, pos: 's-plot-4'}, {id: '5', size: 433, pos: 's-plot-5'}, {id: '6', size: 350, pos: 's-plot-6'},
-                    {id: '7', size: 350, pos: 's-plot-7'}, {id: '8', size: 350, pos: 's-plot-8'}, {id: '9', size: 350, pos: 's-plot-9'},
-                    {id: '10', size: 433, pos: 's-plot-10'}, {id: '11', size: 404, pos: 's-plot-11'}, {id: '12', size: 700, pos: 's-plot-12'},
-                    {id: '13', size: 352, pos: 's-plot-13'}, {id: '14', size: 352, pos: 's-plot-14'}
-                ].map(p => ({...p, status: Math.random() > 0.6 ? 'sold' : 'available', price: '₹' + Math.floor(p.size * 0.035) + ' Lakhs'}))
-            },
-            'ajinkyatara': {
-                title: 'Ajinkya Tara', location: 'Village Ratanpur, Dholera', type: 'grid-sections',
-                desc: 'New Survey No. 292. Next to GETCO 400kv Solar Park. 15 min from International Airport.',
-                amenities: ['Statue of Chhatrapati Shivaji Maharaj', 'Grand Fountain', 'Joggers Park', 'Next to Solar Park'],
-                sections: [{ name: 'Commercial', prefix: 'C-', count: 38, type: 'commercial', minSize: 100, maxSize: 150 }, { name: 'Residential', prefix: 'P-', count: 80, type: 'residential', minSize: 200, maxSize: 400 }],
-                plots: [] 
-            },
-            'dreamcity': {
-                title: 'Dream City', location: 'Village Kharad, Near TP-2', type: 'grid-simple',
-                desc: 'Survey No. 1438. Safe & Secured Investment. Just 500 meters from Dholera SIR boundary.',
-                amenities: ['Attractive Entrance Gate', 'Garden & Children Park', 'Senior Citizen Park', 'Plot Demarcation'],
-                plots: []
-            }
-        };
+  <div id="project-modal" class="modal-overlay" aria-hidden="true">
+    <div class="bg-white w-[min(900px,92%)] max-h-[85vh] overflow-auto rounded-2xl p-6 relative">
+      <button data-close-modal class="absolute right-4 top-4 text-2xl text-[var(--royal-blue)]">×</button>
+      <div id="project-modal-body"></div>
+    </div>
+    <button data-close-modal class="absolute inset-0 -z-10" aria-label="Close"></button>
+  </div>
 
-        let events = [
-            { id: 1, title: 'Dholera Site Visit', date: '2024-11-15', desc: 'Join us for a guided tour of Shivneri and Ajinkya Tara.', img: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=400' },
-            { id: 2, title: 'Investor Summit Mumbai', date: '2024-12-05', desc: 'Discussing the future of smart cities at Taj Lands End.', img: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=400' }
-        ];
+  <div id="review-modal" class="modal-overlay" aria-hidden="true">
+    <div class="review-modal-shell w-[min(560px,94%)] rounded-2xl overflow-hidden shadow-[var(--shadow-hover)] border border-[var(--silver)] bg-[var(--white)]">
+      <div class="review-modal-header px-6 py-5 flex justify-between items-start gap-4">
+        <div>
+          <p class="font-label text-[0.65rem] tracking-[0.25em] uppercase text-[var(--gold)]">Testimonial Studio</p>
+          <h3 class="font-heading text-2xl text-[var(--text-dark)] mt-1">Share Your Experience</h3>
+          <p class="font-ui text-sm text-[var(--text-light)] mt-1">We’ll polish your notes into a dignified review.</p>
+        </div>
+        <button type="button" data-close-review class="text-2xl leading-none text-[var(--text-light)] hover:text-[var(--royal-blue)]" aria-label="Close">×</button>
+      </div>
+      <div class="px-6 pb-6 space-y-4">
+        <label class="block">
+          <span class="font-ui text-xs font-semibold uppercase tracking-wide text-[var(--text-mid)]">Your name</span>
+          <input id="reviewer-name" type="text" class="review-input mt-1.5" placeholder="e.g. Arvind Shah" autocomplete="name">
+        </label>
+        <div>
+          <span class="font-ui text-xs font-semibold uppercase tracking-wide text-[var(--text-mid)]">Rating</span>
+          <div class="review-rating-row mt-2" role="radiogroup" aria-label="Star rating">
+            <label class="review-star-option"><input type="radio" name="rating" value="5" checked><span>5</span></label>
+            <label class="review-star-option"><input type="radio" name="rating" value="4"><span>4</span></label>
+            <label class="review-star-option"><input type="radio" name="rating" value="3"><span>3</span></label>
+          </div>
+        </div>
+        <label class="block">
+          <span class="font-ui text-xs font-semibold uppercase tracking-wide text-[var(--text-mid)]">Your notes</span>
+          <textarea id="rough-notes" class="review-input mt-1.5 min-h-[120px]" rows="4" placeholder="What stood out? Timeline, transparency, quality…"></textarea>
+        </label>
+        <button type="button" id="generate-review" class="btn-royal w-full justify-center">Generate refined review</button>
+        <div class="review-preview">
+          <p class="font-label text-[0.65rem] tracking-[0.2em] uppercase text-[var(--royal-blue)] mb-2">Preview</p>
+          <p id="generated-review" class="font-ui text-[var(--text-mid)] leading-relaxed"></p>
+        </div>
+        <button type="button" id="copy-review" class="btn-outline w-full justify-center border-[var(--royal-green-mid)] text-[var(--royal-green)] hover:bg-[var(--royal-green-tint)]">Copy &amp; open Google Reviews</button>
+      </div>
+    </div>
+  </div>
 
-        let gallery = [
-            { id: 1, type: 'image', url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400', caption: 'Dholera Entrance' },
-            { id: 2, type: 'image', url: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=400', caption: 'Site Development' },
-            { id: 3, type: 'image', url: 'https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&q=80&w=400', caption: 'Dream City Park' },
-            { id: 4, type: 'image', url: 'https://images.unsplash.com/photo-1460472178825-e5240623afd5?auto=format&fit=crop&q=80&w=400', caption: 'Planning Office' }
-        ];
+  <a class="whatsapp-float" data-site-whatsapp-link data-site-wa-default="Hello A New Era Developers, I would like to discuss a project." href="https://wa.me/917208324505?text=Hello%20A%20New%20Era%20Developers%2C%20I%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">💬</a>
 
-        // Site Visit Settings (Load from LocalStorage)
-        let storedSettings = JSON.parse(localStorage.getItem('siteSettings'));
-        let siteSettings = storedSettings || {
-            priceSleeper: 1500,
-            priceAC: 2500,
-            upiId: 'naikwadebhushan-3@okaxis',
-            qrImage: 'qr code.jpeg'
-        };
-
-        let currentProject = 'shivneri';
-        let isAdmin = false;
-        let selectedPlotId = null;
-        let bookingDetails = {};
-        
-        // Initialize LocalStorage for Bookings
-        let siteVisitBookings = JSON.parse(localStorage.getItem('siteVisitBookings')) || [];
-
-        // --- INIT ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Init Data
-            const aj = projects['ajinkyatara'];
-            aj.sections.forEach(sec => { for(let i=1; i<=sec.count; i++) aj.plots.push({id: `${sec.prefix}${i}`, size: Math.floor(Math.random()*(sec.maxSize-sec.minSize)+sec.minSize), price: '₹'+(Math.floor(Math.random()*7+5))+' Lakhs', status: Math.random()>0.7?'sold':'available', type: sec.type}); });
-            
-            const dc = projects['dreamcity'];
-            for(let i=1; i<=60; i++) dc.plots.push({id: `D-${i}`, size: Math.floor(Math.random()*200+200), price: '₹'+(Math.floor(Math.random()*6+4))+' Lakhs', status: Math.random()>0.7?'sold':'available', type: 'residential'});
-
-            renderMap();
-            renderEvents();
-            renderGallery();
-            updateSiteVisitUI();
-        });
-
-        // --- NAVIGATION LOGIC ---
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        // --- SITE VISIT LOGIC ---
-        function updateSiteVisitUI() {
-            document.getElementById('price-sleeper-display').textContent = siteSettings.priceSleeper;
-            document.getElementById('price-ac-display').textContent = siteSettings.priceAC;
-            document.getElementById('upi-id-display').textContent = siteSettings.upiId;
-            document.getElementById('payment-qr').src = siteSettings.qrImage;
-        }
-
-        function showBookingStep(step) {
-            document.querySelectorAll('.booking-step').forEach(el => el.classList.remove('active'));
-            document.getElementById('booking-step-' + step).classList.add('active');
-            
-            // Update Indicators
-            for(let i=1; i<=3; i++) {
-                const el = document.getElementById(`step-${i}-indicator`);
-                if(i === step) {
-                    el.className = "w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center mx-auto text-sm font-bold";
-                } else if (i < step) {
-                    el.className = "w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto text-sm font-bold"; 
-                } else {
-                    el.className = "w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto text-sm font-bold";
-                }
-            }
-        }
-
-        function goToStep2() {
-            const date = document.getElementById('visitDate').value;
-            const name = document.getElementById('visitName').value;
-            const phone = document.getElementById('visitPhone').value;
-            const persons = document.getElementById('visitPersons').value;
-
-            if(!date || !name || !phone) {
-                alert("Please fill in all details");
-                return;
-            }
-
-            bookingDetails = { date, name, phone, persons };
-            showBookingStep(2);
-        }
-
-        function selectCoach(type) {
-            document.querySelectorAll('input[name="coachType"]').forEach(el => el.checked = false);
-            document.getElementById('coach-' + type).checked = true;
-            bookingDetails.coachType = type;
-        }
-
-        function goToStep1() { showBookingStep(1); }
-
-        function goToStep3() {
-            if(!bookingDetails.coachType) {
-                alert("Please select a train coach type.");
-                return;
-            }
-
-            const pricePerPerson = bookingDetails.coachType === 'ac' ? siteSettings.priceAC : siteSettings.priceSleeper;
-            const total = pricePerPerson * parseInt(bookingDetails.persons);
-            
-            bookingDetails.totalAmount = total;
-
-            // Populate Summary
-            document.getElementById('summary-name').textContent = bookingDetails.name;
-            document.getElementById('summary-date').textContent = bookingDetails.date;
-            document.getElementById('summary-coach').textContent = `${bookingDetails.coachType === 'ac' ? 'AC Coach' : 'Sleeper Coach'} (${bookingDetails.persons} Persons)`;
-            document.getElementById('summary-total').textContent = total;
-
-            showBookingStep(3);
-        }
-
-        function confirmBooking() {
-            const fileInput = document.getElementById('paymentScreenshot');
-            if (fileInput.files.length === 0) {
-                alert("Please upload the payment screenshot to proceed.");
-                return;
-            }
-
-            // Show Loader
-            document.getElementById('booking-loader').classList.remove('hidden');
-
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-
-            reader.onloadend = function() {
-                // Save data with image base64
-                bookingDetails.timestamp = new Date().toISOString();
-                bookingDetails.status = 'Paid';
-                bookingDetails.screenshot = reader.result; // Store image in LocalStorage
-                
-                siteVisitBookings.unshift(bookingDetails); // Add to top
-                localStorage.setItem('siteVisitBookings', JSON.stringify(siteVisitBookings));
-
-                // Simulate Backend Delay
-                setTimeout(() => {
-                    document.getElementById('booking-loader').classList.add('hidden');
-                    showBookingStep(4); // Show Success Screen
-                    
-                    // Reset Form
-                    document.getElementById('visitDate').value = '';
-                    document.getElementById('visitName').value = '';
-                    document.getElementById('visitPhone').value = '';
-                    fileInput.value = '';
-                }, 1500);
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // --- MAP & PLOT LOGIC ---
-        function switchProject(key) {
-            currentProject = key;
-            document.querySelectorAll('[id^="tab-"]').forEach(btn => { btn.classList.remove('bg-brand-blue', 'text-white', 'shadow-sm'); btn.classList.add('text-gray-500', 'hover:bg-gray-50'); });
-            document.getElementById(`tab-${key}`).classList.add('bg-brand-blue', 'text-white', 'shadow-sm');
-            renderMap();
-        }
-
-        function renderMap() {
-            const data = projects[currentProject];
-            const container = document.getElementById('map-container');
-            document.getElementById('project-title').textContent = data.title;
-            document.getElementById('project-location').innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i>${data.location}`;
-            document.getElementById('project-desc').textContent = data.desc;
-            document.getElementById('amenities-list').innerHTML = data.amenities.map(am => `<li><i class="fas fa-check text-brand-green mr-2"></i>${am}</li>`).join('');
-            document.getElementById('count-available').textContent = data.plots.filter(p => p.status === 'available').length;
-            document.getElementById('count-sold').textContent = data.plots.filter(p => p.status === 'sold').length;
-            container.innerHTML = '';
-            if (data.type === 'layout') renderShivneri(container, data.plots);
-            else if (data.type === 'grid-sections') renderAjinkyaTara(container, data.plots);
-            else renderGrid(container, data.plots);
-        }
-
-        function createPlotElement(plot) {
-            const el = document.createElement('div');
-            el.className = `plot ${plot.status}`;
-            if(plot.type === 'commercial') el.classList.add('plot-commercial', 'commercial');
-            el.onclick = () => openPlot(plot.id);
-            el.innerHTML = `<span>${plot.id}</span><span style="font-size:9px; font-weight:400; margin-top:2px;">${plot.size} sq.yd</span><div class="admin-badge"><i class="fas fa-pen"></i></div>`;
-            return el;
-        }
-
-        function renderShivneri(container, plots) {
-            const wrapper = document.createElement('div'); wrapper.className = 'shivneri-layout p-4';
-            wrapper.innerHTML = '<div class="s-park"><div><i class="fas fa-tree text-2xl mb-1 block text-center"></i>GARDEN</div></div><div class="s-entry">18.00 MTR ENTRY ROAD</div>';
-            plots.forEach(plot => { const el = createPlotElement(plot); el.classList.add(plot.pos); wrapper.appendChild(el); });
-            container.appendChild(wrapper);
-        }
-        function renderAjinkyaTara(container, plots) {
-            container.innerHTML += '<h4 class="w-full text-center font-bold text-brand-blue uppercase text-sm mb-4 mt-2">Commercial Zone</h4>';
-            const cGrid = document.createElement('div'); cGrid.className = 'plot-grid mb-8';
-            plots.filter(p => p.type === 'commercial').forEach(p => cGrid.appendChild(createPlotElement(p)));
-            container.appendChild(cGrid);
-            container.innerHTML += '<h4 class="w-full text-center font-bold text-gray-500 uppercase text-sm mb-4">Residential Zone</h4>';
-            const rGrid = document.createElement('div'); rGrid.className = 'plot-grid';
-            plots.filter(p => p.type === 'residential').forEach(p => rGrid.appendChild(createPlotElement(p)));
-            container.appendChild(rGrid);
-        }
-        function renderGrid(container, plots) {
-            const grid = document.createElement('div'); grid.className = 'plot-grid';
-            plots.forEach(p => grid.appendChild(createPlotElement(p)));
-            container.appendChild(grid);
-        }
-
-        function openPlot(id) {
-            selectedPlotId = id;
-            const p = projects[currentProject].plots.find(x => x.id === id);
-            document.getElementById('modal-id').textContent = p.id;
-            document.getElementById('modal-size').textContent = p.size;
-            document.getElementById('modal-price').textContent = p.price;
-            document.getElementById('modal-status').textContent = p.status;
-            document.getElementById('modal-status').className = `px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${p.status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
-            
-            document.getElementById('admin-controls').classList.toggle('hidden', !isAdmin);
-            document.getElementById('user-actions').classList.toggle('hidden', isAdmin);
-            
-            if(isAdmin) {
-                document.getElementById('admin-status').value = p.status;
-                document.getElementById('admin-size').value = p.size;
-                document.getElementById('admin-price').value = p.price;
-            }
-            document.getElementById('plotModal').classList.remove('hidden');
-        }
-        function closeModal() { document.getElementById('plotModal').classList.add('hidden'); }
-        function savePlotChanges() {
-            const p = projects[currentProject].plots.find(x => x.id === selectedPlotId);
-            p.status = document.getElementById('admin-status').value;
-            p.size = document.getElementById('admin-size').value;
-            p.price = document.getElementById('admin-price').value;
-            renderMap(); closeModal();
-        }
-        function enquireWhatsApp() {
-            const p = projects[currentProject].plots.find(x => x.id === selectedPlotId);
-            const text = `Interested in ${projects[currentProject].title}, Plot ${p.id} (${p.size} sq.yd)`;
-            window.open(`https://wa.me/917208324505?text=${encodeURIComponent(text)}`, '_blank');
-        }
-
-        // --- ADMIN FUNCTIONS ---
-        function checkLogin() {
-            if(document.getElementById('adminPassword').value === 'admin') {
-                isAdmin = true;
-                document.body.classList.add('is-admin');
-                document.getElementById('admin-bar').classList.remove('hidden');
-                document.getElementById('loginModal').classList.add('hidden');
-                document.getElementById('adminBtn').textContent = 'Dashboard';
-                alert('Admin Access Granted');
-            } else alert('Invalid Password');
-        }
-        function logoutAdmin() {
-            isAdmin = false;
-            document.body.classList.remove('is-admin');
-            document.getElementById('admin-bar').classList.add('hidden');
-            document.getElementById('adminBtn').textContent = 'Admin Login';
-        }
-        function toggleAdminPanel() { if(isAdmin) alert('Already logged in.'); else document.getElementById('loginModal').classList.remove('hidden'); }
-
-        // --- ADMIN SETTINGS & REPORTS ---
-        function openAdminSettings() {
-            document.getElementById('setting-price-sleeper').value = siteSettings.priceSleeper;
-            document.getElementById('setting-price-ac').value = siteSettings.priceAC;
-            document.getElementById('setting-upi-id').value = siteSettings.upiId;
-            // Removed direct value set for file input as it's not supported
-            
-            // Calculate Report Stats
-            const currentMonth = new Date().getMonth();
-            const monthlyBookings = siteVisitBookings.filter(b => new Date(b.timestamp).getMonth() === currentMonth);
-            const totalRevenue = monthlyBookings.reduce((sum, b) => sum + b.totalAmount, 0);
-            
-            document.getElementById('report-count').textContent = monthlyBookings.length;
-            document.getElementById('report-revenue').textContent = '₹' + totalRevenue;
-
-            // Render Bookings List
-            renderAdminBookingsList();
-
-            document.getElementById('adminSettingsModal').classList.remove('hidden');
-        }
-
-        function renderAdminBookingsList() {
-            const container = document.getElementById('admin-bookings-list');
-            if(siteVisitBookings.length === 0) {
-                container.innerHTML = '<p class="text-gray-400 text-sm italic">No bookings yet.</p>';
-                return;
-            }
-            
-            container.innerHTML = siteVisitBookings.map((b, index) => `
-                <div class="bg-gray-50 border border-gray-200 p-3 rounded-lg text-sm relative">
-                    <div class="flex justify-between font-bold text-gray-800">
-                        <span>${b.name}</span>
-                        <span class="text-brand-green">₹${b.totalAmount}</span>
-                    </div>
-                    <div class="text-xs text-gray-500 mt-1">
-                        ${b.date} • ${b.coachType.toUpperCase()} • ${b.persons} Ppl
-                    </div>
-                    <div class="text-xs text-gray-500">${b.phone}</div>
-                    <button onclick="viewPaymentScreenshot(${index})" class="mt-2 text-xs bg-brand-blue text-white px-2 py-1 rounded hover:bg-blue-800">View Payment</button>
-                </div>
-            `).join('');
-        }
-
-        function viewPaymentScreenshot(index) {
-            const booking = siteVisitBookings[index];
-            if(booking && booking.screenshot) {
-                document.getElementById('admin-view-payment-img').src = booking.screenshot;
-                document.getElementById('paymentViewModal').classList.remove('hidden');
-            } else {
-                alert("No screenshot available for this booking.");
-            }
-        }
-
-        function saveAdminSettings() {
-            const fileInput = document.getElementById('setting-qr-upload');
-            
-            // Helper to save rest
-            const saveRest = () => {
-                siteSettings.priceSleeper = document.getElementById('setting-price-sleeper').value;
-                siteSettings.priceAC = document.getElementById('setting-price-ac').value;
-                siteSettings.upiId = document.getElementById('setting-upi-id').value;
-                
-                // Save to LocalStorage
-                localStorage.setItem('siteSettings', JSON.stringify(siteSettings));
-                
-                updateSiteVisitUI();
-                document.getElementById('adminSettingsModal').classList.add('hidden');
-                alert('Settings Saved!');
-            };
-
-            if (fileInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    siteSettings.qrImage = e.target.result; // Base64
-                    saveRest();
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                saveRest();
-            }
-        }
-
-        function generateMonthlyReport() {
-            const currentMonth = new Date().getMonth();
-            const currentYear = new Date().getFullYear();
-            const monthlyBookings = siteVisitBookings.filter(b => {
-                const date = new Date(b.timestamp);
-                return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
-            });
-            const totalRevenue = monthlyBookings.reduce((sum, b) => sum + b.totalAmount, 0);
-            
-            const monthName = new Date().toLocaleString('default', { month: 'long' });
-            
-            const adminNumber = "917208324505";
-            const message = `*Monthly Report: ${monthName} ${currentYear}*%0A%0A` +
-                            `Total Site Visits Booked: ${monthlyBookings.length}%0A` +
-                            `Total Revenue Collected: ₹${totalRevenue}%0A%0A` +
-                            `Generated from New Era Developers Portal.`;
-            
-            window.open(`https://wa.me/${adminNumber}?text=${message}`, '_blank');
-        }
-
-        // --- CONTENT MANAGEMENT ---
-        function renderEvents() {
-            const container = document.getElementById('events-container');
-            container.innerHTML = events.map(ev => `
-                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition">
-                    <img src="${ev.img}" alt="${ev.title}" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="text-xs font-bold text-brand-green uppercase tracking-wide mb-1">${ev.date}</div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">${ev.title}</h3>
-                        <p class="text-gray-600 text-sm">${ev.desc}</p>
-                        <button onclick="deleteEvent(${ev.id})" class="admin-only-section mt-4 text-red-600 text-xs font-bold uppercase hover:underline">Delete Event</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-        function addEvent() {
-            const title = document.getElementById('eventTitle').value;
-            const date = document.getElementById('eventDate').value;
-            const img = document.getElementById('eventImg').value;
-            const desc = document.getElementById('eventDesc').value;
-            if(title && date) {
-                events.unshift({ id: Date.now(), title, date, desc, img: img || 'https://via.placeholder.com/400' });
-                renderEvents();
-                document.getElementById('eventTitle').value = '';
-                document.getElementById('eventDesc').value = '';
-            }
-        }
-        function deleteEvent(id) { events = events.filter(e => e.id !== id); renderEvents(); }
-        
-        function renderGallery() {
-            const container = document.getElementById('gallery-container');
-            container.innerHTML = gallery.map(item => `
-                <div class="relative group rounded-lg overflow-hidden h-64 bg-gray-100">
-                    <img src="${item.url}" class="w-full h-full object-cover transition transform group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
-                        <p class="text-white font-bold text-sm">${item.caption}</p>
-                        <button onclick="deleteGalleryItem(${item.id})" class="admin-only-section text-red-300 text-xs text-left mt-1 hover:text-red-500">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-        function addGalleryItem() {
-            const url = document.getElementById('galleryUrl').value;
-            const caption = document.getElementById('galleryCaption').value;
-            if(url) {
-                gallery.unshift({ id: Date.now(), type: 'image', url, caption });
-                renderGallery();
-                document.getElementById('galleryUrl').value = '';
-            }
-        }
-        function deleteGalleryItem(id) { gallery = gallery.filter(g => g.id !== id); renderGallery(); }
-
-    </script>
+  <script src="public/js/main.js"></script>
+  <script src="public/js/preloader.js"></script>
+  <script src="public/js/hero.js"></script>
+  <script src="public/js/projects.js"></script>
+  <script src="public/js/calculator.js"></script>
+  <script src="public/js/reviews.js"></script>
+  <script src="public/js/counters.js"></script>
 </body>
 </html>

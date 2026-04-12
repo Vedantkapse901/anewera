@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | A New Era Developers</title>
+  <link rel="icon" type="image/png" href="public/images/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="public/css/variables.css">
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="public/css/components.css">
+</head>
+<body>
+  <nav class="navbar"><div class="royal-container flex h-20 items-center justify-between"><a href="index.html"><img src="public/images/logo.png" alt="Logo" class="h-12"></a><div class="hidden md:flex gap-6"><a class="nav-link" href="index.html">Home</a><a class="nav-link active" href="projects.html">Projects</a><a class="nav-link" href="booking.html">Book Visit</a></div><a class="btn-royal" href="booking.html">Book Site Visit</a></div></nav>
+  <main class="pt-24 section-blue min-h-screen py-14" data-reveal>
+    <div class="royal-container">
+      <div class="text-center mb-10"><p class="section-label">--- CURATED PORTFOLIO ---</p><h1 class="font-heading text-5xl mt-2">Distinguished Projects</h1></div>
+      <div class="grid lg:grid-cols-3 gap-7">
+        <article class="royal-card overflow-hidden project-card" data-reveal data-sector="land" data-land-slug="shivneri" data-title="Shivneri" data-description="Signature plotted development in Dholera SIR with legal and growth clarity."><img src="public/images/s1.jpg" alt="Shivneri" class="w-full aspect-video object-cover"><div class="p-5"><h2 class="font-heading text-3xl">Shivneri</h2><p>Dholera SIR, Gujarat</p><p class="mt-2">A calibrated plotted ecosystem shaped for legacy investors.</p></div></article>
+        <article class="royal-card overflow-hidden project-card" data-reveal data-sector="land" data-land-slug="dreamcity" data-title="Dream City" data-description="Upcoming land release aligned with industrial and mobility momentum."><img src="public/images/s2.jpg" alt="Land project" class="w-full aspect-video object-cover"><div class="p-5"><h2 class="font-heading text-3xl">Dream City</h2><p>Dholera SIR, Gujarat</p><p class="mt-2">Select inventory designed for disciplined long-horizon appreciation.</p></div></article>
+        <article class="royal-card overflow-hidden project-card" data-reveal data-sector="construction" data-title="Mira Residence One" data-description="Refined residential construction proposition in Mira Road."><img src="public/images/s3.jpg" alt="Mira Residence One" class="w-full aspect-video object-cover"><div class="p-5"><h2 class="font-heading text-3xl">Mira Residence One</h2><p>Mira Road, Maharashtra</p><p class="mt-2">Urban comfort crafted with timeless planning standards.</p></div></article>
+      </div>
+      <div class="mt-8"><button type="button" class="btn-outline" data-wa-message="Hello A New Era Developers, I would like to discuss your current projects and availability.">Discuss on WhatsApp</button></div>
+    </div>
+  </main>
+  <footer class="py-3 text-sm text-white" style="background:var(--gradient-royal); border-top:3px solid var(--gold-bright);">
+    <div class="royal-container flex flex-wrap gap-3 justify-between items-center">
+      <span>© <span data-year></span> <span data-site-text="companyName">A New Era Developers</span>. All Rights Reserved.</span>
+      <nav class="footer-fine-print" aria-label="Legal"><a href="#" class="footer-fine-link">Terms of Use</a><span class="footer-fine-sep" aria-hidden="true">·</span><a href="admin.html" class="footer-stealth-admin" tabindex="-1">Policies</a><span class="footer-fine-sep" aria-hidden="true">·</span><a href="#" class="footer-fine-link">Disclaimer</a></nav>
+      <span>RERA Registration No. <span data-site-text="reraNo">Applied</span></span>
+      <span>Proudly Built in India</span>
+    </div>
+  </footer>
+  <div id="project-modal" class="modal-overlay" aria-hidden="true">
+    <div class="bg-white w-[min(900px,92%)] max-h-[85vh] overflow-auto rounded-2xl p-6 relative">
+      <button data-close-modal class="absolute right-4 top-4 text-2xl text-[var(--royal-blue)]" type="button">×</button>
+      <div id="project-modal-body"></div>
+    </div>
+    <button data-close-modal class="absolute inset-0 -z-10" type="button" aria-label="Close"></button>
+  </div>
+
+  <a class="whatsapp-float" data-site-whatsapp-link data-site-wa-default="Hello A New Era Developers, please share project details." href="https://wa.me/917208324505?text=Hello%20A%20New%20Era%20Developers%2C%20please%20share%20project%20details." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">💬</a>
+  <script src="public/js/main.js"></script>
+  <script src="public/js/projects.js"></script>
+</body>
+</html>

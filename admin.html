@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Centre | A New Era Developers</title>
+  <link rel="icon" type="image/png" href="public/images/logo.png">
+  <link rel="stylesheet" href="public/css/variables.css">
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="public/css/admin.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="admin-app admin-locked">
+  <div id="admin-gate" class="admin-gate" role="dialog" aria-modal="true" aria-labelledby="admin-gate-title">
+    <div class="admin-gate-rings" aria-hidden="true">
+      <div class="admin-gate-ring"></div>
+      <div class="admin-gate-ring"></div>
+      <div class="admin-gate-ring"></div>
+    </div>
+    <div class="admin-gate-card">
+      <img src="public/images/logo.png" alt="" class="admin-gate-logo" width="72" height="72">
+      <h1 id="admin-gate-title" class="admin-gate-title">Command Centre</h1>
+      <p class="admin-gate-sub">A New Era Developers — authorised access only</p>
+      <label class="sr-only" for="admin-password">Password</label>
+      <input id="admin-password" type="password" class="admin-gate-input" placeholder="Enter password" autocomplete="current-password">
+      <button id="admin-login-btn" type="button" class="admin-gate-btn">Authenticate</button>
+      <p id="admin-login-error" class="admin-gate-error hidden" role="alert">Invalid credentials. Please try again.</p>
+    </div>
+  </div>
+
+  <div id="admin-shell" class="admin-shell hidden">
+    <aside class="admin-sidebar" aria-label="Primary">
+      <div class="admin-sidebar-brand">
+        <img src="public/images/logo.png" alt="A New Era Developers">
+        <p>Command Centre</p>
+      </div>
+      <nav class="admin-nav" aria-label="Sections">
+        <button type="button" class="admin-nav-btn is-active" data-panel="dashboard">
+          <span class="admin-nav-icon" aria-hidden="true">◆</span>
+          Dashboard
+        </button>
+        <button type="button" class="admin-nav-btn" data-panel="bookings">
+          <span class="admin-nav-icon" aria-hidden="true">◇</span>
+          Bookings
+          <span id="badge-bookings" class="admin-nav-badge is-muted">0</span>
+        </button>
+        <button type="button" class="admin-nav-btn" data-panel="reviews">
+          <span class="admin-nav-icon" aria-hidden="true">★</span>
+          Reviews
+          <span id="badge-reviews" class="admin-nav-badge is-muted">0</span>
+        </button>
+        <button type="button" class="admin-nav-btn" data-panel="projects">
+          <span class="admin-nav-icon" aria-hidden="true">▣</span>
+          Projects
+        </button>
+        <button type="button" class="admin-nav-btn" data-panel="leads">
+          <span class="admin-nav-icon" aria-hidden="true">◎</span>
+          Leads
+        </button>
+        <button type="button" class="admin-nav-btn" data-panel="analytics">
+          <span class="admin-nav-icon" aria-hidden="true">▤</span>
+          Analytics
+        </button>
+        <button type="button" class="admin-nav-btn" data-panel="settings">
+          <span class="admin-nav-icon" aria-hidden="true">⚙</span>
+          Settings
+        </button>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-row">
+          <div id="admin-avatar" class="admin-avatar" aria-hidden="true">AE</div>
+          <div class="admin-user-meta">
+            <strong>Administrator</strong>
+            <span id="admin-session-hint">Session active</span>
+          </div>
+        </div>
+        <button type="button" id="admin-signout" class="admin-signout">Sign out</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-main-header">
+        <h1 id="admin-page-title">Dashboard</h1>
+        <p id="admin-page-desc">Live snapshot of bookings, reviews, and pipeline health.</p>
+      </header>
+
+      <section id="panel-dashboard" class="admin-panel is-visible" data-admin-panel="dashboard" aria-labelledby="admin-page-title">
+        <div class="admin-kpi-grid" id="admin-kpi-grid">
+          <article class="admin-kpi-card admin-kpi-pop"><p class="admin-kpi-label">Total bookings</p><p class="admin-kpi-value" data-kpi="bookings">—</p></article>
+          <article class="admin-kpi-card admin-kpi-pop"><p class="admin-kpi-label">Pending visits</p><p class="admin-kpi-value is-gold" data-kpi="pendingVisits">—</p></article>
+          <article class="admin-kpi-card admin-kpi-pop"><p class="admin-kpi-label">Reviews</p><p class="admin-kpi-value is-green" data-kpi="reviews">—</p></article>
+          <article class="admin-kpi-card admin-kpi-pop"><p class="admin-kpi-label">Active projects</p><p class="admin-kpi-value" data-kpi="activeProjects">—</p></article>
+        </div>
+        <div class="admin-dash-row">
+          <div class="admin-chart-card">
+            <h3>Monthly enquiries (live)</h3>
+            <div class="admin-chart-wrap"><canvas id="chart-monthly" aria-label="Monthly bar chart"></canvas></div>
+          </div>
+          <div class="admin-chart-card">
+            <h3>Lead distribution</h3>
+            <div class="admin-chart-wrap admin-chart-sm"><canvas id="chart-donut" aria-label="Lead donut chart"></canvas></div>
+          </div>
+        </div>
+        <div class="admin-dash-bottom">
+          <div class="admin-feed">
+            <h3>Activity feed</h3>
+            <div id="admin-activity-feed"></div>
+          </div>
+          <div class="admin-table-wrap">
+            <div class="admin-toolbar"><strong style="font-family: 'Playfair Display', serif;">Upcoming visits</strong></div>
+            <div style="overflow:auto; max-height: 280px;">
+              <table class="admin-table" id="table-upcoming">
+                <thead><tr><th>Guest</th><th>Date</th><th>Coach</th><th>Status</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-bookings" class="admin-panel" data-admin-panel="bookings">
+        <div class="admin-table-wrap">
+          <div class="admin-toolbar">
+            <input type="search" id="bookings-search" class="admin-toolbar-search" placeholder="Search name, phone, email…">
+            <select id="bookings-filter-status">
+              <option value="all">All statuses</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="paid">Paid</option>
+            </select>
+            <button type="button" id="bookings-export-csv" class="admin-btn-sm">Export CSV</button>
+          </div>
+          <div style="overflow:auto;">
+            <table class="admin-table" id="table-bookings">
+              <thead>
+                <tr>
+                  <th>Name</th><th>Phone</th><th>Email</th><th>Date</th><th>Coach</th><th>Persons</th><th>Status</th><th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-reviews" class="admin-panel" data-admin-panel="reviews">
+        <div class="admin-review-banner">
+          <div>
+            <p class="text-sm opacity-90 font-ui" style="margin:0 0 0.25rem;">Average rating</p>
+            <div class="admin-review-avg" id="review-avg-score">—</div>
+            <div class="admin-review-stars" id="review-avg-stars" aria-hidden="true">★★★★★</div>
+          </div>
+          <div class="font-ui text-sm" style="max-width:280px; opacity:0.9;">
+            <span id="review-pending-line">Pending moderation: 0</span>
+          </div>
+        </div>
+        <div id="review-grid" class="admin-review-grid"></div>
+      </section>
+
+      <section id="panel-projects" class="admin-panel" data-admin-panel="projects">
+        <div id="admin-projects-container" class="admin-project-grid"></div>
+      </section>
+
+      <section id="panel-leads" class="admin-panel" data-admin-panel="leads">
+        <div class="admin-table-wrap">
+          <div class="admin-toolbar">
+            <label class="font-ui text-sm text-[var(--text-mid)]">Stage</label>
+            <select id="leads-filter-stage">
+              <option value="all">All stages</option>
+              <option value="inquiry">Inquiry</option>
+              <option value="qualified">Qualified</option>
+              <option value="visit">Visit</option>
+              <option value="negotiation">Negotiation</option>
+              <option value="won">Won</option>
+              <option value="lost">Lost</option>
+            </select>
+          </div>
+          <div style="overflow:auto;">
+            <table class="admin-table" id="table-leads">
+              <thead>
+                <tr><th>Name</th><th>Contact</th><th>Stage</th><th>Source</th><th>Value</th><th></th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-analytics" class="admin-panel" data-admin-panel="analytics">
+        <div class="admin-analytics-grid">
+          <div class="admin-chart-card">
+            <h3>Revenue trend (₹)</h3>
+            <div class="admin-chart-wrap"><canvas id="chart-revenue"></canvas></div>
+          </div>
+          <div class="admin-stat-block">
+            <h3>Conversion KPIs</h3>
+            <ul id="analytics-conversion" class="font-ui text-sm space-y-2" style="margin:0; padding-left:1.1rem; color:var(--text-mid);"></ul>
+          </div>
+        </div>
+        <div class="admin-stat-block">
+          <h3>Inventory snapshot</h3>
+          <div id="analytics-inventory" class="admin-inventory-grid font-ui text-sm"></div>
+        </div>
+      </section>
+
+      <section id="panel-settings" class="admin-panel" data-admin-panel="settings">
+        <div class="admin-settings-grid">
+          <div class="admin-card-block">
+            <h3>Company &amp; contact</h3>
+            <form id="site-settings-form">
+              <div class="admin-form-row"><label>Company name<input name="companyName" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label></div>
+              <div class="admin-form-row"><label>Tagline<input name="companyTagline" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label></div>
+              <div class="admin-form-row"><label>Phone<input name="phone" type="tel" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label></div>
+              <div class="admin-form-row"><label>Email<input name="email" type="email" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label></div>
+              <div class="admin-form-row"><label>Office address<input name="address" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label></div>
+              <div class="admin-form-row"><label>Google Maps link<input name="mapLink" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label></div>
+              <div class="admin-form-row"><label>RERA number<input name="reraNo" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label></div>
+              <div class="admin-form-row"><label>WhatsApp (digits)<input name="whatsappNumber" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label></div>
+              <div class="admin-form-row md:col-span-2">
+                <label class="block font-semibold text-[var(--royal-blue)] mb-2">Hero copy</label>
+                <label class="block text-sm">Hero label<input name="heroLabel" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                <label class="block text-sm mt-2">Hero title<input name="heroTitle" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                <label class="block text-sm mt-2">Hero subtitle<input name="heroSubtitle" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                <div class="grid md:grid-cols-2 gap-2 mt-2">
+                  <label class="text-sm">Stat 1<input name="heroStat1" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                  <label class="text-sm">Stat 2<input name="heroStat2" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                  <label class="text-sm">Stat 3<input name="heroStat3" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                  <label class="text-sm">Stat 4<input name="heroStat4" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                </div>
+                <label class="block text-sm mt-2">Hero image 1 URL<input name="heroImage1" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                <label class="block text-sm mt-2">Hero image 2 URL<input name="heroImage2" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+                <label class="block text-sm mt-2">Hero image 3 URL<input name="heroImage3" form="site-settings-form" type="text" class="w-full border border-[var(--silver)] rounded p-2 mt-1"></label>
+              </div>
+              <div class="flex flex-wrap gap-2 mt-4">
+                <button type="submit" class="admin-btn-primary">Save company &amp; hero</button>
+                <button type="button" id="reset-site-settings" class="admin-btn-ghost">Reset defaults</button>
+                <a href="index.html" class="admin-btn-primary" style="text-decoration:none; display:inline-block;">Preview site</a>
+              </div>
+              <p id="admin-save-status" class="text-sm mt-3"></p>
+            </form>
+          </div>
+          <div class="admin-card-block">
+            <h3>Credentials &amp; preferences</h3>
+            <form id="admin-prefs-form">
+              <div class="admin-form-row">
+                <label>New portal password <span class="font-normal opacity-70">(optional)</span></label>
+                <input id="admin-new-password" type="password" autocomplete="new-password" placeholder="Leave blank to keep current" class="w-full border border-[var(--silver)] rounded p-2">
+              </div>
+              <div class="admin-form-row">
+                <label>Confirm password</label>
+                <input id="admin-new-password-2" type="password" autocomplete="new-password" placeholder="Repeat new password" class="w-full border border-[var(--silver)] rounded p-2">
+              </div>
+              <p class="text-xs text-[var(--text-light)] mb-4">Stored in this browser only. Default remains if unchanged.</p>
+              <h4 class="font-heading text-base mb-2">Notifications</h4>
+              <div class="admin-toggle">
+                <span>Email digest for new bookings</span>
+                <button type="button" class="admin-switch" data-pref="notifyBookings" aria-checked="false" role="switch"></button>
+              </div>
+              <div class="admin-toggle">
+                <span>Alert on new reviews</span>
+                <button type="button" class="admin-switch" data-pref="notifyReviews" aria-checked="false" role="switch"></button>
+              </div>
+              <h4 class="font-heading text-base mb-2 mt-4">AI review assistant</h4>
+              <div class="admin-toggle">
+                <span>Polish tone (Gemini)</span>
+                <button type="button" class="admin-switch" data-pref="aiPolish" aria-checked="true" role="switch"></button>
+              </div>
+              <div class="admin-toggle">
+                <span>Prefer shorter drafts</span>
+                <button type="button" class="admin-switch" data-pref="aiShort" aria-checked="false" role="switch"></button>
+              </div>
+              <button type="submit" class="admin-btn-primary mt-4">Save preferences</button>
+              <p id="admin-prefs-status" class="text-sm mt-2"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="admin-modal" class="admin-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+    <div class="admin-modal">
+      <h3 id="admin-modal-title">Update status</h3>
+      <p id="admin-modal-body" class="font-ui text-sm text-[var(--text-mid)]"></p>
+      <div id="admin-modal-extra"></div>
+      <div class="admin-modal-actions">
+        <button type="button" class="admin-btn-ghost" id="admin-modal-cancel">Cancel</button>
+        <button type="button" class="admin-btn-primary" id="admin-modal-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="public/js/main.js"></script>
+  <script src="public/js/admin.js"></script>
+</body>
+</html>

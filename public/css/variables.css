@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Cinzel:wght@400;600;700;900&family=Raleway:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Josefin+Sans:wght@300;400;600;700&display=swap');
+
+:root {
+  /* === PRIMARY PALETTE === */
+  --royal-blue: #1A237E;
+  --royal-blue-mid: #283593;
+  --royal-blue-light: #3F51B5;
+  --royal-blue-tint: #E8EAF6;
+  --royal-red: #B71C1C;
+  --royal-red-mid: #C62828;
+  --royal-red-light: #EF9A9A;
+  --royal-red-tint: #FFEBEE;
+  --royal-green: #1B5E20;
+  --royal-green-mid: #2E7D32;
+  --royal-green-light: #A5D6A7;
+  --royal-green-tint: #E8F5E9;
+  --gold: #B8860B;
+  --gold-bright: #D4A017;
+  --gold-light: #F5E6A3;
+  --gold-tint: #FFFDE7;
+
+  /* === NEUTRALS === */
+  --white: #FFFFFF;
+  --ivory: #FAFAF7;
+  --pearl: #F5F5F0;
+  --silver: #ECEFF1;
+  --text-dark: #1A1A2E;
+  --text-mid: #37474F;
+  --text-light: #78909C;
+
+  /* === ROYAL GRADIENTS === */
+  --gradient-royal: linear-gradient(135deg, #1A237E 0%, #283593 50%, #1565C0 100%);
+  --gradient-gold: linear-gradient(135deg, #B8860B 0%, #D4A017 50%, #F5C842 100%);
+  --gradient-crimson: linear-gradient(135deg, #B71C1C 0%, #C62828 100%);
+  --gradient-emerald: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+  --gradient-regal: linear-gradient(160deg, #1A237E 0%, #B71C1C 100%);
+  --gradient-ivory: linear-gradient(180deg, #FFFFFF 0%, #FAFAF7 100%);
+
+  /* === SHADOWS === */
+  --shadow-gold: 0 4px 24px rgba(184, 134, 11, 0.25);
+  --shadow-royal: 0 8px 40px rgba(26, 35, 126, 0.18);
+  --shadow-card: 0 2px 16px rgba(26, 35, 126, 0.10);
+  --shadow-hover: 0 12px 48px rgba(26, 35, 126, 0.22);
+}

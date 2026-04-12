@@ -1,0 +1,328 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  color: var(--text-mid);
+  background: var(--ivory);
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--text-dark);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.font-display {
+  font-family: 'Cinzel', serif;
+}
+
+.font-heading {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-ui {
+  font-family: 'Raleway', sans-serif;
+}
+
+.font-label {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.royal-divider {
+  height: 2px;
+  background: var(--gold-bright);
+  opacity: 0.6;
+}
+
+.section-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.gold-rule {
+  border-top: 2px solid var(--gold-bright);
+}
+
+.section-white {
+  background: var(--white);
+}
+
+.section-gold {
+  background: var(--gold-tint);
+}
+
+.section-blue {
+  background: var(--royal-blue-tint);
+}
+
+.section-pearl {
+  background: var(--pearl);
+}
+
+.ornament-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.ornament-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-repeat: repeat;
+  background-size: 280px;
+  pointer-events: none;
+}
+
+.watermark-crown::before {
+  background-image: radial-gradient(circle at 20% 30%, var(--royal-blue) 0 3px, transparent 4px),
+    radial-gradient(circle at 60% 40%, var(--gold) 0 2px, transparent 3px);
+}
+
+.watermark-arch::before {
+  background-image: linear-gradient(90deg, transparent 0 20px, var(--royal-blue) 20px 22px, transparent 22px 40px);
+}
+
+.royal-container {
+  width: min(1280px, 92%);
+  margin-inline: auto;
+}
+
+.btn-royal,
+.btn-outline,
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.4rem;
+  border-radius: 999px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-royal {
+  background: var(--gradient-royal);
+  color: var(--white);
+  border: 1px solid var(--gold-bright);
+}
+
+.btn-outline {
+  background: var(--white);
+  color: var(--royal-blue);
+  border: 1px solid var(--royal-blue);
+}
+
+.btn-gold {
+  background: var(--gradient-gold);
+  color: var(--text-dark);
+  border: 1px solid var(--gold-bright);
+}
+
+.btn-royal:hover,
+.btn-outline:hover,
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.royal-card {
+  background: var(--white);
+  border-radius: 1rem;
+  border-top: 3px solid var(--gold-bright);
+  box-shadow: var(--shadow-card);
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--royal-blue);
+}
+
+.contact-link:hover {
+  color: var(--royal-red);
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 85;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 999px;
+  display: grid;
+  place-content: center;
+  font-size: 1.45rem;
+  color: var(--white);
+  background: var(--gradient-emerald);
+  border: 1px solid var(--gold-bright);
+  box-shadow: var(--shadow-gold);
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-2px);
+}
+
+/* Stealth Command Centre link — see footer-snippet.html */
+.footer-fine-print {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.footer-fine-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-fine-link:hover {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.footer-fine-sep {
+  opacity: 0.55;
+  user-select: none;
+}
+
+.footer-stealth-admin {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.28);
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+.footer-stealth-admin:hover {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.admin-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  background: rgba(26, 35, 126, 0.55);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.admin-gate.hidden {
+  display: none;
+}
+
+.admin-gate-card {
+  width: min(450px, 96%);
+  background: var(--white);
+  border-top: 3px solid var(--gold-bright);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-hover);
+  padding: 1.5rem;
+}
+
+body.admin-locked {
+  overflow: hidden;
+}
+
+.review-modal-shell {
+  background: linear-gradient(180deg, var(--white) 0%, var(--ivory) 100%);
+}
+
+.review-modal-header {
+  background: linear-gradient(135deg, var(--royal-blue-tint) 0%, var(--white) 100%);
+  border-bottom: 1px solid var(--silver);
+}
+
+.review-input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--silver);
+  background: var(--white);
+  padding: 0.75rem 1rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9375rem;
+  color: var(--text-dark);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-input:focus {
+  outline: none;
+  border-color: var(--royal-blue);
+  box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.12);
+}
+
+.review-rating-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.review-star-option {
+  flex: 1;
+  text-align: center;
+  border-radius: 0.75rem;
+  border: 1px solid var(--silver);
+  padding: 0.5rem 0.25rem;
+  cursor: pointer;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.review-star-option.is-selected {
+  border-color: var(--gold-bright);
+  background: var(--gold-tint);
+  color: var(--royal-blue);
+}
+
+.review-star-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.review-preview {
+  border-radius: 1rem;
+  border: 1px dashed var(--silver);
+  background: var(--pearl);
+  padding: 1rem 1.25rem;
+  min-height: 5rem;
+}
+
+.admin-side-link {
+  color: var(--text-mid);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.admin-side-link:hover {
+  background: var(--royal-blue-tint);
+  color: var(--royal-blue);
+}

@@ -1,0 +1,141 @@
+/* Land project interactive map — colors via variables only in layout tokens */
+.plot-grid-wrap {
+  background: var(--white);
+  border-radius: 1rem;
+  border: 1px solid var(--silver);
+  box-shadow: var(--shadow-card);
+  padding: 1rem;
+  min-height: 420px;
+  overflow: auto;
+}
+
+.shivneri-layout {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.plot {
+  width: 80px;
+  height: 80px;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  font-size: 0.75rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+.plot:hover {
+  transform: scale(1.04);
+  z-index: 10;
+  box-shadow: var(--shadow-card);
+}
+
+.plot.available {
+  background: var(--royal-green-tint);
+  border: 1px solid var(--royal-green-mid);
+  color: var(--royal-green);
+}
+
+.plot.sold {
+  background: var(--royal-red-tint);
+  border: 1px solid var(--royal-red-mid);
+  color: var(--royal-red);
+  opacity: 0.9;
+}
+
+.s-park {
+  grid-column: 2 / span 4;
+  grid-row: 2 / span 2;
+  background: var(--royal-green-tint);
+  border: 2px dashed var(--royal-green-mid);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--royal-green);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.s-entry {
+  grid-column: 3 / span 2;
+  grid-row: 4;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: var(--text-light);
+  font-weight: 700;
+  padding-bottom: 5px;
+}
+
+.s-plot-10 { grid-column: 1; grid-row: 1; }
+.s-plot-9 { grid-column: 2; grid-row: 1; }
+.s-plot-8 { grid-column: 3; grid-row: 1; }
+.s-plot-7 { grid-column: 4; grid-row: 1; }
+.s-plot-6 { grid-column: 5; grid-row: 1; }
+.s-plot-5 { grid-column: 6; grid-row: 1; }
+.s-plot-11 { grid-column: 1; grid-row: 2; height: 100px; }
+.s-plot-4 { grid-column: 6; grid-row: 2; height: 100px; }
+.s-plot-12 { grid-column: 1; grid-row: 3; height: 120px; }
+.s-plot-3 { grid-column: 6; grid-row: 3; height: 120px; }
+.s-plot-13 { grid-column: 1; grid-row: 4; }
+.s-plot-14 { grid-column: 2; grid-row: 4; }
+.s-plot-1 { grid-column: 5; grid-row: 4; }
+.s-plot-2 { grid-column: 6; grid-row: 4; }
+
+.land-nav-tagline {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  border-bottom: 1px solid var(--silver);
+  background: var(--white);
+}
+
+.land-nav-links a {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--text-mid);
+  padding: 0.35rem 0;
+}
+
+.land-nav-links a:hover {
+  color: var(--royal-blue);
+}
+
+.project-tab {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-tab.active {
+  background: var(--royal-blue);
+  color: var(--white);
+}
+
+.project-tab:not(.active) {
+  background: var(--white);
+  color: var(--text-light);
+  border-color: var(--silver);
+}

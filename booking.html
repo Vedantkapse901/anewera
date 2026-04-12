@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking | A New Era Developers</title>
+  <link rel="icon" type="image/png" href="public/images/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="public/css/variables.css">
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="public/css/components.css">
+</head>
+<body class="section-pearl">
+  <nav class="navbar"><div class="royal-container flex h-20 items-center justify-between"><a href="index.html"><img src="public/images/logo.png" alt="Logo" class="h-12"></a><div class="hidden md:flex gap-6"><a class="nav-link" href="index.html">Home</a><a class="nav-link" href="projects.html">Projects</a><a class="nav-link active" href="booking.html">Booking</a></div></div></nav>
+  <main class="pt-24 pb-16" data-reveal>
+    <div class="royal-container">
+      <div class="text-center mb-8"><p class="section-label">--- PLAN YOUR VISIT ---</p><h1 class="font-heading text-5xl mt-2">Book a Curated Site Experience</h1></div>
+      <div class="max-w-3xl mx-auto royal-card p-6" id="booking-flow" data-reveal>
+        <div class="flex items-center justify-center gap-4 mb-5">
+          <span data-step-indicator="1" class="w-10 h-10 rounded-full bg-blue-900 text-white grid place-content-center">1</span>
+          <div class="h-1 w-16 progress-line"></div>
+          <span data-step-indicator="2" class="w-10 h-10 rounded-full bg-gray-300 text-white grid place-content-center">2</span>
+          <div class="h-1 w-16 progress-line"></div>
+          <span data-step-indicator="3" class="w-10 h-10 rounded-full bg-gray-300 text-white grid place-content-center">3</span>
+        </div>
+        <div class="h-2 rounded bg-[var(--silver)] overflow-hidden mb-5"><div id="booking-progress" class="h-2 bg-[var(--gold-bright)]" style="width:33%"></div></div>
+
+        <section data-step="1">
+          <h2 class="font-heading text-3xl mb-4">Step 1 — Personal Details</h2>
+          <div class="grid md:grid-cols-2 gap-3">
+            <input id="booking-name" class="p-3 rounded border border-[var(--silver)]" placeholder="Full Name">
+            <input id="booking-phone" class="p-3 rounded border border-[var(--silver)]" placeholder="Phone (+91)">
+            <input id="booking-email" class="p-3 rounded border border-[var(--silver)] md:col-span-2" placeholder="Email">
+          </div>
+          <button class="btn-royal mt-4" data-next type="button">Continue</button>
+        </section>
+        <section data-step="2" class="hidden">
+          <h2 class="font-heading text-3xl mb-4">Step 2 — Travel & Train Info</h2>
+          <div class="grid gap-3">
+            <input id="booking-date" class="p-3 rounded border border-[var(--silver)]" placeholder="Preferred date">
+            <select id="booking-coach" class="p-3 rounded border border-[var(--silver)]"><option>Sleeper</option><option>AC Coach</option></select>
+            <input id="booking-persons" class="p-3 rounded border border-[var(--silver)]" placeholder="Persons">
+          </div>
+          <div class="mt-4 flex gap-3"><button class="btn-outline" data-back type="button">Back</button><button class="btn-royal" data-next type="button">Continue</button></div>
+        </section>
+        <section data-step="3" class="hidden">
+          <h2 class="font-heading text-3xl mb-4">Step 3 — Payment & Confirmation</h2>
+          <p class="mb-2">Pay and share receipt with our concierge team.</p>
+          <div class="rounded-xl p-4 bg-[var(--royal-blue-tint)]">
+            <p><a href="tel:+917208324505" data-site-phone-link data-site-text="phone" class="contact-link">+91 7208324505</a></p>
+            <p><a href="mailto:aneweradevelopers@gmail.com" data-site-email-link data-site-text="email" class="contact-link">aneweradevelopers@gmail.com</a></p>
+          </div>
+          <div class="mt-4 flex gap-3"><button class="btn-outline" data-back type="button">Back</button><button class="btn-royal" id="confirm-booking-wa" type="button">Confirm on WhatsApp</button></div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="py-3 text-sm text-white" style="background:var(--gradient-royal); border-top:3px solid var(--gold-bright);">
+    <div class="royal-container flex flex-wrap gap-3 justify-between items-center">
+      <span>© <span data-year></span> <span data-site-text="companyName">A New Era Developers</span>. All Rights Reserved.</span>
+      <nav class="footer-fine-print" aria-label="Legal"><a href="#" class="footer-fine-link">Terms of Use</a><span class="footer-fine-sep" aria-hidden="true">·</span><a href="admin.html" class="footer-stealth-admin" tabindex="-1">Policies</a><span class="footer-fine-sep" aria-hidden="true">·</span><a href="#" class="footer-fine-link">Disclaimer</a></nav>
+      <span>RERA Registration No. <span data-site-text="reraNo">Applied</span></span>
+      <span>Proudly Built in India</span>
+    </div>
+  </footer>
+  <a class="whatsapp-float" data-site-whatsapp-link data-site-wa-default="Hello A New Era Developers, I want to book a site visit." href="https://wa.me/917208324505?text=Hello%20A%20New%20Era%20Developers%2C%20I%20want%20to%20book%20a%20site%20visit." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">💬</a>
+  <script src="public/js/main.js"></script>
+  <script src="public/js/booking.js"></script>
+</body>
+</html>
