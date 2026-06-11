@@ -1,0 +1,57 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './app/**/*.{js,ts,jsx,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'royal-blue': '#1A237E',
+        'royal-blue-mid': '#283593',
+        'royal-blue-light': '#3F51B5',
+        'royal-blue-tint': '#E8EAF6',
+        'royal-red': '#B71C1C',
+        'royal-red-mid': '#C62828',
+        'royal-red-light': '#EF9A9A',
+        'royal-red-tint': '#FFEBEE',
+        'royal-green': '#1B5E20',
+        'royal-green-mid': '#2E7D32',
+        'royal-green-light': '#A5D6A7',
+        'royal-green-tint': '#E8F5E9',
+        'gold': '#B8860B',
+        'gold-bright': '#D4A017',
+        'gold-light': '#F5E6A3',
+        'gold-tint': '#FFFDE7',
+        'ivory': '#FAFAF7',
+        'pearl': '#F5F5F0',
+        'silver': '#ECEFF1',
+        'text-dark': '#1A1A2E',
+        'text-mid': '#37474F',
+        'text-light': '#78909C',
+      },
+      fontFamily: {
+        heading: ['Playfair Display', 'serif'],
+        display: ['Cinzel', 'serif'],
+        ui: ['Raleway', 'sans-serif'],
+        label: ['Josefin Sans', 'sans-serif'],
+        body: ['Lato', 'sans-serif'],
+      },
+      backgroundImage: {
+        'gradient-royal': 'linear-gradient(135deg, #1A237E 0%, #283593 50%, #1565C0 100%)',
+        'gradient-gold': 'linear-gradient(135deg, #B8860B 0%, #D4A017 50%, #F5C842 100%)',
+        'gradient-crimson': 'linear-gradient(135deg, #B71C1C 0%, #C62828 100%)',
+        'gradient-emerald': 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+        'gradient-regal': 'linear-gradient(160deg, #1A237E 0%, #B71C1C 100%)',
+      },
+      boxShadow: {
+        'gold': '0 4px 24px rgba(184, 134, 11, 0.25)',
+        'royal': '0 8px 40px rgba(26, 35, 126, 0.18)',
+        'card': '0 2px 16px rgba(26, 35, 126, 0.10)',
+        'hover': '0 12px 48px rgba(26, 35, 126, 0.22)',
+      },
+    },
+  },
+  plugins: [],
+};

@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Cinzel:wght@400;600;700;900&family=Raleway:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Josefin+Sans:wght@300;400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  margin: 0;
+  color: var(--text-dark, #1A1A2E);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Base component styles */
+.royal-container {
+  width: min(1280px, 92%);
+  margin-inline: auto;
+}
+
+.section-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  color: #D4A017;
+}
+
+.btn-royal,
+.btn-outline,
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.4rem;
+  border-radius: 999px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-royal {
+  background: linear-gradient(135deg, #1A237E 0%, #283593 50%, #1565C0 100%);
+  color: white;
+  border: 1px solid #D4A017;
+}
+
+.btn-outline {
+  background: white;
+  color: #1A237E;
+  border: 1px solid #1A237E;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #B8860B 0%, #D4A017 50%, #F5C842 100%);
+  color: #1A1A2E;
+  border: 1px solid #D4A017;
+}
+
+.btn-royal:hover,
+.btn-outline:hover,
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 48px rgba(26, 35, 126, 0.22);
+}
+
+.royal-card {
+  background: white;
+  border-radius: 1rem;
+  border-top: 3px solid #D4A017;
+  box-shadow: 0 2px 16px rgba(26, 35, 126, 0.10);
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #1A237E;
+  transition: color 0.2s ease;
+}
+
+.contact-link:hover {
+  color: #B71C1C;
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 85;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 999px;
+  display: grid;
+  place-content: center;
+  font-size: 1.45rem;
+  color: white;
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+  border: 1px solid #D4A017;
+  box-shadow: 0 4px 24px rgba(184, 134, 11, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-2px);
+}
+
+/* Section backgrounds */
+.section-white {
+  background: white;
+}
+
+.section-gold {
+  background: #FFFDE7;
+}
+
+.section-blue {
+  background: #E8EAF6;
+}
+
+.section-pearl {
+  background: #F5F5F0;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

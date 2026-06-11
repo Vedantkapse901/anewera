@@ -1,30 +1,41 @@
 {
   "name": "anewera",
-  "version": "1.0.0",
-  "description": "A New Era Developers web platform",
+  "version": "2.0.0",
+  "description": "A New Era Developers - Modern web platform with Next.js and Framer Motion",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "api": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Vedantkapse901/anewera.git"
   },
-  "keywords": [],
+  "keywords": [
+    "real-estate",
+    "development",
+    "construction"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Vedantkapse901/anewera/issues"
-  },
-  "homepage": "https://github.com/Vedantkapse901/anewera#readme",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "framer-motion": "^11.0.3",
+    "next": "^16.2.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
+    "nodemon": "^3.1.14",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.1"
   }
 }

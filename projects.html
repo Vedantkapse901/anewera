@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="public/css/variables.css">
   <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="public/css/animations.css">
   <link rel="stylesheet" href="public/css/components.css">
 </head>
 <body>
@@ -15,6 +16,11 @@
   <main class="pt-24 section-blue min-h-screen py-14" data-reveal>
     <div class="royal-container">
       <div class="text-center mb-10"><p class="section-label">--- CURATED PORTFOLIO ---</p><h1 class="font-heading text-5xl mt-2">Distinguished Projects</h1></div>
+      <div class="flex flex-wrap justify-center gap-3 mb-10">
+        <button class="btn-royal !rounded-full !py-2 !px-5" data-filter="all" aria-pressed="true">All Projects</button>
+        <button class="btn-outline !rounded-full !py-2 !px-5" data-filter="land" aria-pressed="false">Land Development</button>
+        <button class="btn-outline !rounded-full !py-2 !px-5" data-filter="construction" aria-pressed="false">Building Construction</button>
+      </div>
       <div class="grid lg:grid-cols-3 gap-7">
         <article class="royal-card overflow-hidden project-card" data-reveal data-sector="land" data-land-slug="shivneri" data-title="Shivneri" data-description="Signature plotted development in Dholera SIR with legal and growth clarity."><img src="public/images/s1.jpg" alt="Shivneri" class="w-full aspect-video object-cover"><div class="p-5"><h2 class="font-heading text-3xl">Shivneri</h2><p>Dholera SIR, Gujarat</p><p class="mt-2">A calibrated plotted ecosystem shaped for legacy investors.</p></div></article>
         <article class="royal-card overflow-hidden project-card" data-reveal data-sector="land" data-land-slug="dreamcity" data-title="Dream City" data-description="Upcoming land release aligned with industrial and mobility momentum."><img src="public/images/s2.jpg" alt="Land project" class="w-full aspect-video object-cover"><div class="p-5"><h2 class="font-heading text-3xl">Dream City</h2><p>Dholera SIR, Gujarat</p><p class="mt-2">Select inventory designed for disciplined long-horizon appreciation.</p></div></article>
